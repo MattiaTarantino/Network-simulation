@@ -26,7 +26,7 @@
 // n0 -------------- n1
 //    point-to-point
 //
-
+                                                                        // questa è una prova
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("FirstScriptExample");

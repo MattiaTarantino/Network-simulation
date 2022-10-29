@@ -34,7 +34,7 @@
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE("FirstScriptExample");          //prova
+NS_LOG_COMPONENT_DEFINE("FirstScriptExample");
 
 int
 main(int argc, char* argv[])

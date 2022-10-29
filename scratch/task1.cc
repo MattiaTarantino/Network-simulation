@@ -20,15 +20,17 @@
 #include "ns3/network-module.h"
 #include "ns3/point-to-point-module.h"
 
-//  Network Topology
-//           n1                 .
-//           |                  .
-//           |                  .
-//     n2--- n0---n4            .
-//           |                  .
-//           |                  .
-//           n3                 .
-
+//                     Network Topology :
+//
+//           n1                                          
+//           |                  
+//           |                 
+//     n2--- n0-----n4     n5    n6 ----- n7     n8     n9
+//           |       |     |     |        |      |      |
+//           |       ==============       ===============  
+//           n3
+//           
+//       10.0.1.0   LAN 192.118.1.0       LAN 192.118.2.0 
 
 using namespace ns3;
 

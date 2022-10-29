@@ -23,7 +23,7 @@
 // Default Network Topology
 //
 //       10.1.1.0
-// n0 -------------- n1     provando
+// n0 -------------- n1    
 //    point-to-point
 //
 

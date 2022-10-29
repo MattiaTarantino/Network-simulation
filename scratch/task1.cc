@@ -20,12 +20,15 @@
 #include "ns3/network-module.h"
 #include "ns3/point-to-point-module.h"
 
-// Default Network Topology
-//
-//       10.1.1.0
-// n0 -------------- n1    
-//    point-to-point
-//
+//  Network Topology
+//           n1                 .
+//           |                  .
+//           |                  .
+//     n2--- n0---n4            .
+//           |                  .
+//           |                  .
+//           n3                 .
+
 
 using namespace ns3;
 

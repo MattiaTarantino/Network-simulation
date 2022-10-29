@@ -42,7 +42,7 @@ main(int argc, char* argv[])
     CommandLine cmd(__FILE__);
     cmd.Parse(argc, argv);
 
-    Time::SetResolution(Time::NS);                                                  // prova
+    Time::SetResolution(Time::NS);                                                 
     LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
     LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
 

@@ -50,6 +50,8 @@ int main(int argc, char* argv[]){
     NodeContainer nodes;
     nodes.Create(2);
 
+    if ( *argv[1] == '0' ) {
+        
 //  Creando "network cable" con DataRate e Delay
     PointToPointHelper pointToPoint;
     pointToPoint.SetDeviceAttribute("DataRate", StringValue("5Mbps"));
@@ -92,6 +94,8 @@ int main(int argc, char* argv[]){
 
 //  Cattura i pacchetti e crea un file .pcap
     pointToPoint.EnablePcapAll("task1");
+    
+    }
 
     Simulator::Run();
     Simulator::Destroy();

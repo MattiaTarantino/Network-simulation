@@ -110,29 +110,9 @@ int main(int argc, char* argv[]){
     NetDeviceContainer csmaDevices2;
     csmaDevices2 = csma2.Install(csmaNodes2);
 
-// InternetStackHelper
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-//  Creando "network cable" con DataRate e Delay
-    PointToPointHelper pointToPoint;
-    pointToPoint.SetDeviceAttribute("DataRate", StringValue("5Mbps"));
-    pointToPoint.SetChannelAttribute("Delay", StringValue("2ms"));
-
-//  Installando la point-to-point tra i nodi
-    NetDeviceContainer devices;
-    devices = pointToPoint.Install(nodes);
 
 //  Installando una Stack Internet (TCO,UDP,IP, ecc..) su ognuno dei nodi nel NodeContainer
     InternetStackHelper stack;

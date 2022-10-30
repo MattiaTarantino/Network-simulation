@@ -50,8 +50,9 @@ int main(int argc, char* argv[]){
     NodeContainer nodes;
     nodes.Create(2);
 
+//  Inizio configurazione 0 :
     if ( *argv[1] == '0' ) {
-        
+
 //  Creando "network cable" con DataRate e Delay
     PointToPointHelper pointToPoint;
     pointToPoint.SetDeviceAttribute("DataRate", StringValue("5Mbps"));

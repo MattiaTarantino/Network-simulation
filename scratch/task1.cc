@@ -18,6 +18,10 @@
 #include "ns3/core-module.h"
 #include "ns3/internet-module.h"
 #include "ns3/network-module.h"
+#include "ns3/point-to-point-layout-module.h"
+#include "ns3/netanim-module.h"
+#include "ns3/csma-module.h"
+#include "ns3/ipv4-global-routing-helper.h"
 #include "ns3/point-to-point-module.h"
 
 //                     Network Topology :
@@ -45,6 +49,36 @@ int main(int argc, char* argv[]){
     Time::SetResolution(Time::NS);                                                 
     LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
     LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
+
+//  Creo i nodi che compongono la stella, escluso il nodo centrale n0
+    uint32_t nSpokes = 4;
+
+//  Creo i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella
+    uint32_t nCsma1 = 2;
+
+//  Creo la stella e configuro i parametri
+    NS_LOG_INFO("Build star topology.");
+    PointToPointHelper pointToPoint1;
+    pointToPoint1.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
+    pointToPoint1.SetChannelAttribute("Delay", TimeValue(NanoSeconds(10)));
+    PointToPointStarHelper star(nSpokes, pointToPoint1);
+
+//  Creo la prima LAN partendo da n4
+    NodeContainer csmaNodes1;
+    csmaNodes1.Add(star.GetSpokeNode(3));
+    csmaNodes1.Create(nCsma1);
+
+//  Configuro i parametri della prima LAN
+    CsmaHelper csma1;
+    csma1.SetChannelAttribute("DataRate", StringValue("25Mbps"));
+    csma1.SetChannelAttribute("Delay", TimeValue(NanoSeconds(10)));
+
+//  Installo la Csma sui nodi csmaNodes1
+    NetDeviceContainer csmaDevices1;
+    csmaDevices1 = csma1.Install(csmaNodes1);
+
+//  CREARE LA SECONDA LAN CHE COSTITUISCE LA TERZA PARTE DELLA RETE
+
 
 //  Creando 2 nodi
     NodeContainer nodes;

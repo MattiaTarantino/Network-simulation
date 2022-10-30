@@ -69,14 +69,17 @@ int main(int argc, char* argv[]){
 
     Ipv4InterfaceContainer interfaces = address.Assign(devices);
 
-//  Settando un EDP echo server sul nodo n1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
+//  Settando un EDP echo server sul nodo 1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
     UdpEchoServerHelper echoServer(9);
 
     ApplicationContainer serverApps = echoServer.Install(nodes.Get(1));
     serverApps.Start(Seconds(1.0));
     serverApps.Stop(Seconds(10.0));
 
-//  Settando un EDP echo client sul nodo n0 che abbiamo creato che riceve traffico dopo 2 sec e termina dopo 10 sec   
+//  Settando un EDP echo client con Remote Address del nodo 1 e Remote Port 9?
+//  Con max numero di pacchetti, con intervallo di tempo tra un pacchetto e l'altro, e il payload di un pacchetto
+//  Settando un EDP echo client sul nodo 0 che abbiamo creato che riceve traffico dopo 2 sec e termina dopo 10 sec
+
     UdpEchoClientHelper echoClient(interfaces.GetAddress(1), 9);
     echoClient.SetAttribute("MaxPackets", UintegerValue(1));
     echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));

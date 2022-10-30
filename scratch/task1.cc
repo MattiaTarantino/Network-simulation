@@ -60,13 +60,13 @@ int main(int argc, char* argv[]){
 //  Creo i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella e n6 dato che verrà creato con una connessione point to point
     uint32_t nCsma1 = 1;
 
-//    ??????????
+//  ??????????
     nCsma1 = nCsma1 == 0 ? 1 : nCsma1;
 
-// Creo i nodi che compongono la seconda LAN, escluso n7 essendo già considerato nella connessione point-to-point
+//  Creo i nodi che compongono la seconda LAN, escluso n7 essendo già considerato nella connessione point-to-point
     uint32_t nCsma2 = 2;
 
-//    ??????????
+//  ??????????
     nCsma2 = nCsma2 == 0 ? 1 : nCsma2;
 
 //  Creo la stella n0-n{1,2,3,4} e configuro i parametri

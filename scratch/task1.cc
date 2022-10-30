@@ -38,8 +38,12 @@ NS_LOG_COMPONENT_DEFINE("TaskScript");
 
 int main(int argc, char* argv[]){
 
+//  Es. di run con parametri generici data rate a 5 Mps e delay a 2 ms      
+//                                      ./ns3 run "scratch/task1
+//                                      --ns3::PointToPointNetDevice::DataRate=5Mbps
+//                                      --ns3::PointToPointChannel::Delay=2ms"
     CommandLine cmd;
-    cmd.Parse (argc, argv);
+    cmd.Parse (argc, argv);                    
 
     Time::SetResolution(Time::NS);                                                 
     LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);

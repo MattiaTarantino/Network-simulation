@@ -122,26 +122,34 @@ int main(int argc, char* argv[]){
     stack.Install(p2pNodes);
     stack.Install(csmaNodes2);
 
-//  Associando gli indirizzi IP ai devices partendo dal network 10.1.1.0 usando una maschera 255.255.255.0 per definire i bit allocabili
+//  Associando gli indirizzi IP ai devices partendo dal network 10.0.1.0 usando una maschera 255.255.255.0 per definire i bit allocabili
 //  Di default gli indirizzi partono da .1 e incrementano monotonamente
-    Ipv4AddressHelper address;
-    address.SetBase("10.0.1.0", "255.255.255.0");
+    NS_LOG_INFO("Assign IP Addresses.");
+    star.AssignIpv4Addresses(Ipv4AddressHelper("10.0.1.0", "255.255.255.0"));
 
-    Ipv4InterfaceContainer interfaces = address.Assign(devices);
+    Ipv4AddressHelper address;
+    address.SetBase("192.118.1.0", "255.255.255.0");
+    Ipv4InterfaceContainer csmaInterfaces1 = address.Assign(csmaDevices1);
+
+    address.SetBase("10.0.2.0", "255.255.255.0");
+    Ipv4InterfaceContainer p2pInterfaces = address.Assign(p2pDevices);
+
+    address.SetBase("192.118.2.0", "255.255.255.0");
+    Ipv4InterfaceContainer csmaInterfaces2 = address.Assign(csmaDevices2);
 
 //  Inizio configurazione 0 :
     if ( *argv[1] == '0' ) {
 
-//  Settando un EDP echo server sul nodo 1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
+//  Settando un UDP echo server sul nodo 1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
     UdpEchoServerHelper echoServer(9);
 
     ApplicationContainer serverApps = echoServer.Install(nodes.Get(1));
     serverApps.Start(Seconds(1.0));
     serverApps.Stop(Seconds(10.0));
 
-//  Settando un EDP echo client con Remote Address del nodo 1 e Remote Port 9?
+//  Settando un UDP echo client con Remote Address del nodo 1 e Remote Port 9?
 //  Con max numero di pacchetti, con intervallo di tempo tra un pacchetto e l'altro, e il payload di un pacchetto
-//  Settando un EDP echo client sul nodo 0 che abbiamo creato che riceve traffico dopo 2 sec e termina dopo 10 sec
+//  Settando un UDP echo client sul nodo 0 che abbiamo creato che riceve traffico dopo 2 sec e termina dopo 10 sec
 
     UdpEchoClientHelper echoClient(interfaces.GetAddress(1), 9);
     echoClient.SetAttribute("MaxPackets", UintegerValue(1));

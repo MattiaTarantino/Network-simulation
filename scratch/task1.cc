@@ -118,9 +118,10 @@ int main(int argc, char* argv[]){
     NS_LOG_INFO("Install internet stack on all nodes.");
     InternetStackHelper stack;
     star.InstallStack(stack);
-    stack.Install(csmaNodes1);
+    stack.Install(csmaNodes1.Get(1));
     stack.Install(p2pNodes);
-    stack.Install(csmaNodes2);
+    stack.Install(csmaNodes2.Get(1));
+    stack.Install(csmaNodes2.Get(2));
 
 //  Associando gli indirizzi IP ai devices partendo dal network 10.0.1.0 usando una maschera 255.255.255.0 per definire i bit allocabili
 //  Di default gli indirizzi partono da .1 e incrementano monotonamente

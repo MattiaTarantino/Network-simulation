@@ -101,6 +101,10 @@ int main(int argc, char* argv[]){
     pointToPoint0.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
     pointToPoint0.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
 
+//  Installo un point-to-point net device sui nodi n6 e n7 e un canale point-to-point tra essi
+    NetDeviceContainer p2pDevices;
+    p2pDevices = pointToPoint0.Install(p2pNodes);
+
 //  Configuro i parametri della seconda LAN
     CsmaHelper csma2;
     csma2.SetChannelAttribute("DataRate", StringValue("30Mbps"));
@@ -109,10 +113,6 @@ int main(int argc, char* argv[]){
 //  Installo la Csma sui nodi csmaNodes2
     NetDeviceContainer csmaDevices2;
     csmaDevices2 = csma2.Install(csmaNodes2);
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 //  Installando una Stack Internet (TCO,UDP,IP, ecc..) su ognuno dei nodi nel NodeContainer
     NS_LOG_INFO("Install internet stack on all nodes.");

@@ -95,7 +95,11 @@ int main(int argc, char* argv[]){
 
 //  Cattura i pacchetti e crea un file .pcap
     pointToPoint.EnablePcapAll("task1");
-    
+
+//  ASCII Tracing    
+    AsciiTraceHelper ascii;
+    pointToPoint.EnableAsciiAll(ascii.CreateFileStream("task.tr"));
+
     }
 
     Simulator::Run();

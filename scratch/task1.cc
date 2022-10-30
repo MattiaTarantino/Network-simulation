@@ -92,16 +92,15 @@ int main(int argc, char* argv[]){
     ApplicationContainer clientApps = echoClient.Install(nodes.Get(0));
     clientApps.Start(Seconds(2.0));
     clientApps.Stop(Seconds(10.0));
-    
-    }
 
 //  Cattura i pacchetti e crea un file .pcap
-    pointToPoint.EnablePcapAll("task1");
+    pointToPoint.EnablePcapAll("task");
 
 //  ASCII Tracing    
     AsciiTraceHelper ascii;
     pointToPoint.EnableAsciiAll(ascii.CreateFileStream("task.tr"));
 
+    }
 
     Simulator::Run();
     Simulator::Destroy();

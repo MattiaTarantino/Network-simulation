@@ -38,10 +38,7 @@ NS_LOG_COMPONENT_DEFINE("TaskScript");
 
 int main(int argc, char* argv[]){
 
-//  Es. di run con parametri generici: data rate a 5 Mbps e delay a 2 ms      
-//                                      ./ns3 run "scratch/task1
-//                                      --ns3::PointToPointNetDevice::DataRate=5Mbps
-//                                      --ns3::PointToPointChannel::Delay=2ms"
+//  Configurazione impostabile dinamicamente da linea di comando
     CommandLine cmd;
     cmd.Parse (argc, argv);                    
 

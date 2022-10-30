@@ -34,10 +34,10 @@
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE("FirstScriptExample");
+NS_LOG_COMPONENT_DEFINE("TaskScript");
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]){
+
     CommandLine cmd(__FILE__);
     cmd.Parse(argc, argv);
 
@@ -45,30 +45,38 @@ int main(int argc, char* argv[])
     LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
     LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
 
+//  Creando 2 nodi
     NodeContainer nodes;
     nodes.Create(2);
 
+//  Creando "network cable" con DataRate e Delay
     PointToPointHelper pointToPoint;
     pointToPoint.SetDeviceAttribute("DataRate", StringValue("5Mbps"));
     pointToPoint.SetChannelAttribute("Delay", StringValue("2ms"));
 
+//  Installando la point-to-point tra i nodi
     NetDeviceContainer devices;
     devices = pointToPoint.Install(nodes);
 
+//  Installando una Stack Internet (TCO,UDP,IP, ecc..) su ognuno dei nodi nel NodeContainer
     InternetStackHelper stack;
     stack.Install(nodes);
 
+//  Associando gli indirizzi IP ai devices partendo dal network 10.1.1.0 usando una maschera 255.255.255.0 per definire i bit allocabili
+//  Di default gli indirizzi partono da .1 e incrementano monotonamente
     Ipv4AddressHelper address;
     address.SetBase("10.1.1.0", "255.255.255.0");
 
     Ipv4InterfaceContainer interfaces = address.Assign(devices);
 
+//  Settando un EDP echo server sul nodo n1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
     UdpEchoServerHelper echoServer(9);
 
     ApplicationContainer serverApps = echoServer.Install(nodes.Get(1));
     serverApps.Start(Seconds(1.0));
     serverApps.Stop(Seconds(10.0));
 
+//  Settando un EDP echo client sul nodo n0 che abbiamo creato che riceve traffico dopo 2 sec e termina dopo 10 sec   
     UdpEchoClientHelper echoClient(interfaces.GetAddress(1), 9);
     echoClient.SetAttribute("MaxPackets", UintegerValue(1));
     echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));

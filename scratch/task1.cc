@@ -56,6 +56,9 @@ int main(int argc, char* argv[]){
 //  Creo i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella
     uint32_t nCsma1 = 2;
 
+//    ??????????
+    nCsma1 = nCsma1 == 0 ? 1 : nCsma1;
+
 //  Creo la stella e configuro i parametri
     NS_LOG_INFO("Build star topology.");
     PointToPointHelper pointToPoint1;

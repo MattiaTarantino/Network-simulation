@@ -53,23 +53,34 @@ int main(int argc, char* argv[]){
 //  Creo i nodi che compongono la stella, escluso il nodo centrale n0
     uint32_t nSpokes = 4;
 
-//  Creo i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella
-    uint32_t nCsma1 = 2;
+//  Creo i nodi n6 e n7 che andranno a instaurare una connessione point-to-point
+    NodeContainer p2pNodes;
+    p2pNodes.Create(2);
+
+//  Creo i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella e n6 dato che verrà creato con una connessione point to point
+    uint32_t nCsma1 = 1;
 
 //    ??????????
     nCsma1 = nCsma1 == 0 ? 1 : nCsma1;
 
-//  Creo la stella e configuro i parametri
+// Creo i nodi che compongono la seconda LAN, escluso n7 essendo già considerato nella connessione point-to-point
+    uint32_t nCsma2 = 2;
+
+//    ??????????
+    nCsma2 = nCsma2 == 0 ? 1 : nCsma2;
+
+//  Creo la stella n0-n{1,2,3,4} e configuro i parametri
     NS_LOG_INFO("Build star topology.");
     PointToPointHelper pointToPoint1;
     pointToPoint1.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
     pointToPoint1.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
     PointToPointStarHelper star(nSpokes, pointToPoint1);
 
-//  Creo la prima LAN partendo da n4
+//  Creo la prima LAN partendo da n4 e aggiungendo anche n6 facente parte della connessione point-to-point 
     NodeContainer csmaNodes1;
     csmaNodes1.Add(star.GetSpokeNode(3));
     csmaNodes1.Create(nCsma1);
+    csmaNodes1.Add(p2pNodes.Get(0));
 
 //  Configuro i parametri della prima LAN
     CsmaHelper csma1;
@@ -80,12 +91,39 @@ int main(int argc, char* argv[]){
     NetDeviceContainer csmaDevices1;
     csmaDevices1 = csma1.Install(csmaNodes1);
 
-//  CREARE LA SECONDA LAN CHE COSTITUISCE LA TERZA PARTE DELLA RETE
+//  Creo la seconda LAN partendo da n7
+    NodeContainer csmaNodes2;
+    csmaNodes2.Add(p2pNodes.Get(1));
+    csmaNodes2.Create(nCsma2);
+
+//  Configuro i parametri della connessione point-to-point tra n6 e n7
+    PointToPointHelper pointToPoint0;
+    pointToPoint0.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
+    pointToPoint0.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
+
+//  Configuro i parametri della seconda LAN
+    CsmaHelper csma2;
+    csma2.SetChannelAttribute("DataRate", StringValue("30Mbps"));
+    csma2.SetChannelAttribute("Delay", TimeValue(MicroSeconds(20)));
+
+//  Installo la Csma sui nodi csmaNodes2
+    NetDeviceContainer csmaDevices2;
+    csmaDevices2 = csma2.Install(csmaNodes2);
+
+// InternetStackHelper
 
 
-//  Creando 2 nodi
-    NodeContainer nodes;
-    nodes.Create(2);
+
+
+
+
+
+
+
+
+
+
+
 
 //  Creando "network cable" con DataRate e Delay
     PointToPointHelper pointToPoint;

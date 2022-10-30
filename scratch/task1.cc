@@ -36,8 +36,7 @@ using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("FirstScriptExample");
 
-int
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
     CommandLine cmd(__FILE__);
     cmd.Parse(argc, argv);
@@ -79,7 +78,8 @@ main(int argc, char* argv[])
     clientApps.Start(Seconds(2.0));
     clientApps.Stop(Seconds(10.0));
 
-    pointToPoint.EnablePcapAll("myfirst");
+//  Cattura i pacchetti e crea un file .pcap
+    pointToPoint.EnablePcapAll("task1");
 
     Simulator::Run();
     Simulator::Destroy();

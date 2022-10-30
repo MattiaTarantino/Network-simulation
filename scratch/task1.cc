@@ -50,9 +50,6 @@ int main(int argc, char* argv[]){
     NodeContainer nodes;
     nodes.Create(2);
 
-//  Inizio configurazione 0 :
-    if ( *argv[1] == '0' ) {
-
 //  Creando "network cable" con DataRate e Delay
     PointToPointHelper pointToPoint;
     pointToPoint.SetDeviceAttribute("DataRate", StringValue("5Mbps"));
@@ -73,6 +70,9 @@ int main(int argc, char* argv[]){
 
     Ipv4InterfaceContainer interfaces = address.Assign(devices);
 
+//  Inizio configurazione 0 :
+    if ( *argv[1] == '0' ) {
+
 //  Settando un EDP echo server sul nodo 1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
     UdpEchoServerHelper echoServer(9);
 
@@ -92,6 +92,8 @@ int main(int argc, char* argv[]){
     ApplicationContainer clientApps = echoClient.Install(nodes.Get(0));
     clientApps.Start(Seconds(2.0));
     clientApps.Stop(Seconds(10.0));
+    
+    }
 
 //  Cattura i pacchetti e crea un file .pcap
     pointToPoint.EnablePcapAll("task1");
@@ -100,7 +102,6 @@ int main(int argc, char* argv[]){
     AsciiTraceHelper ascii;
     pointToPoint.EnableAsciiAll(ascii.CreateFileStream("task.tr"));
 
-    }
 
     Simulator::Run();
     Simulator::Destroy();

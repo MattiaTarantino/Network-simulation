@@ -60,7 +60,7 @@ int main(int argc, char* argv[]){
     NS_LOG_INFO("Build star topology.");
     PointToPointHelper pointToPoint1;
     pointToPoint1.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
-    pointToPoint1.SetChannelAttribute("Delay", TimeValue(NanoSeconds(10)));
+    pointToPoint1.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
     PointToPointStarHelper star(nSpokes, pointToPoint1);
 
 //  Creo la prima LAN partendo da n4
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]){
 //  Configuro i parametri della prima LAN
     CsmaHelper csma1;
     csma1.SetChannelAttribute("DataRate", StringValue("25Mbps"));
-    csma1.SetChannelAttribute("Delay", TimeValue(NanoSeconds(10)));
+    csma1.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
 
 //  Installo la Csma sui nodi csmaNodes1
     NetDeviceContainer csmaDevices1;

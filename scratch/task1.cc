@@ -125,7 +125,7 @@ int main(int argc, char* argv[]){
 //  Associando gli indirizzi IP ai devices partendo dal network 10.1.1.0 usando una maschera 255.255.255.0 per definire i bit allocabili
 //  Di default gli indirizzi partono da .1 e incrementano monotonamente
     Ipv4AddressHelper address;
-    address.SetBase("10.1.1.0", "255.255.255.0");
+    address.SetBase("10.0.1.0", "255.255.255.0");
 
     Ipv4InterfaceContainer interfaces = address.Assign(devices);
 

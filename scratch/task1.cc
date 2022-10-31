@@ -45,7 +45,7 @@ int main(int argc, char* argv[]){
 //  Configurazione impostabile dinamicamente da linea di comando
     CommandLine cmd;
     int configuration = 0;
-    cmd.AddValue("configuration", "numero configurazione",configuration);
+    cmd.AddValue("configuration", "numero configurazione", configuration);
     cmd.Parse (argc, argv);                    
 
     Time::SetResolution(Time::NS);                                                 
@@ -182,7 +182,7 @@ int main(int argc, char* argv[]){
     if ( configuration == 2 ) {
     
     }
-    
+
     Simulator::Run();
     Simulator::Destroy();
     return 0;

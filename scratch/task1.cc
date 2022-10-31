@@ -156,8 +156,6 @@ int main(int argc, char* argv[]){
         onOffHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         onOffHelper.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize = 1500;
-        onOffHelper.SetAttribute("MaxPackets", UintegerValue(1));
-        onOffHelper.SetAttribute("Interval", TimeValue(Seconds(1.0)));
         onOffHelper.SetAttribute("PacketSize", UintegerValue(packetSize));
 
         // Impostazione dell' OnOff sul nodo n9

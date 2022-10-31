@@ -149,13 +149,13 @@ int main(int argc, char* argv[]){
         // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
         NS_LOG_INFO("Create applications.");
 
-        uint32_t port = 2600;
-        Address hubLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
-        PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", hubLocalAddress);
-        ApplicationContainer sinkApp = sinkHelper.Install(star.GetSpokeNode(1));
+        uint16_t port = 2600;
+        Address sinkLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
+        PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", sinkLocalAddress);
+        ApplicationContainer sinkApp = sinkHelper.Install(star.GetSpokeNode(0));
         sinkApp.Start(Seconds(1.0));
         sinkApp.Stop(Seconds(20.0));
-
+        //
         // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1, uno su ogni nodo della stella
         OnOffHelper clientHelper("ns3::TcpSocketFactory", Address());
         clientHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
@@ -186,6 +186,7 @@ int main(int argc, char* argv[]){
         clientApps.Start(Seconds(3.0));
         clientApps.Stop(Seconds(15.0));*/
 
+        NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
         // printando ip
@@ -234,10 +235,10 @@ int main(int argc, char* argv[]){
         //pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
         //csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(3));
 
-        /*pointToPoint0.EnableAsciiAll("p2p0.tr");
+        pointToPoint0.EnableAsciiAll("p2p0.tr");
         csma1.EnableAsciiAll("csma1.tr");
         pointToPoint1.EnableAsciiAll("p2p1.tr");
-        csma2.EnableAsciiAll("csma2.tr");*/
+        csma2.EnableAsciiAll("csma2.tr");
     }
 
     //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

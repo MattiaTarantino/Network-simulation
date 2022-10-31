@@ -155,6 +155,18 @@ int main(int argc, char* argv[]){
         OnOffHelper onOffHelper("ns3::TcpSocketFactory", Address());
         onOffHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         onOffHelper.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+        uint32_t packetSize = 1500;
+        onOffHelper.SetAttribute("MaxPackets", UintegerValue(1));
+        onOffHelper.SetAttribute("Interval", TimeValue(Seconds(1.0)));
+        onOffHelper.SetAttribute("PacketSize", UintegerValue(packetSize));
+
+        // Impostazione dell' OnOff sul nodo n9
+        ApplicationContainer spokeApp;
+        AddressValue remoteAddress(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port));
+        onOffHelper.SetAttribute("Remote", remoteAddress);
+        App_n1.Add(onOffHelper.Install(csmaNodes2.Get(2)));
+        App_n1.Start(Seconds(3.0));
+        App_n1.Stop(Seconds(15.0));
 
         //  Cattura i pacchetti e crea un file .pcap
         NS_LOG_INFO("Enable pcap tracing.");

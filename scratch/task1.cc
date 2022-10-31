@@ -152,17 +152,17 @@ int main(int argc, char* argv[]){
         sinkApp.Stop(Seconds(20.0));
 
         // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1, uno su ogni nodo della stella
-        OnOffHelper onOffHelper("ns3::TcpSocketFactory", Address());
-        onOffHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
-        onOffHelper.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+        OnOffHelper clientHelper("ns3::TcpSocketFactory", Address());
+        clientHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+        clientHelper.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize = 1500;
-        onOffHelper.SetAttribute("PacketSize", UintegerValue(packetSize));
+        clientHelper.SetAttribute("PacketSize", UintegerValue(packetSize));
 
         // Impostazione dell' OnOff sul nodo n9
         ApplicationContainer clientApps;
         AddressValue remoteAddress(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port));
-        onOffHelper.SetAttribute("Remote", remoteAddress);
-        clientApps.Add(onOffHelper.Install(csmaNodes2.Get(2)));
+        clientHelper.SetAttribute("Remote", remoteAddress);
+        clientApps.Add(clientHelper.Install(csmaNodes2.Get(2)));
         clientApps.Start(Seconds(3.0));
         clientApps.Stop(Seconds(15.0));
 

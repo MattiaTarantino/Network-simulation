@@ -73,7 +73,7 @@ int main(int argc, char* argv[]){
     NS_LOG_INFO("Build star topology.");
     PointToPointHelper pointToPoint1;
     pointToPoint1.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
-    pointToPoint1.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
+    pointToPoint1.SetChannelAttribute("Delay", StringValue("10us"));
     PointToPointStarHelper star(nSpokes, pointToPoint1);
 
 //  Creando la prima LAN partendo da n4 aggiungendo anche n6 facente parte della connessione point-to-point 
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]){
 //  Configurando i parametri della prima LAN
     CsmaHelper csma1;
     csma1.SetChannelAttribute("DataRate", StringValue("25Mbps"));
-    csma1.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
+    csma1.SetChannelAttribute("Delay", StringValue("10us"));
 
 //  Installando la Csma sui nodi csmaNodes1
     NetDeviceContainer csmaDevices1;
@@ -105,7 +105,7 @@ int main(int argc, char* argv[]){
 //  Configurando i parametri della connessione point-to-point tra n6 e n7
     PointToPointHelper pointToPoint0;
     pointToPoint0.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
-    pointToPoint0.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
+    pointToPoint0.SetChannelAttribute("Delay", StringValue("10us"));
 
 //  Installando un point-to-point net device sui nodi n6 e n7 e un canale point-to-point tra essi
     NetDeviceContainer p2pDevices;
@@ -114,7 +114,7 @@ int main(int argc, char* argv[]){
 //  Configurando i parametri della seconda LAN
     CsmaHelper csma2;
     csma2.SetChannelAttribute("DataRate", StringValue("30Mbps"));
-    csma2.SetChannelAttribute("Delay", TimeValue(MicroSeconds(20)));
+    csma2.SetChannelAttribute("Delay", StringValue("20us"));
 
 //  Installando la Csma sui nodi csmaNodes2
     NetDeviceContainer csmaDevices2;

@@ -140,7 +140,7 @@ int main(int argc, char* argv[]){
     address.SetBase("192.118.2.0", "255.255.255.0");
     Ipv4InterfaceContainer csmaInterfaces2 = address.Assign(csmaDevices2);
 
-//  Inizio configurazione 0 :
+//  Inizio configurazione 0 :   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if ( configuration == 0 ) {
 
 //  Settando un UDP echo server sul nodo 1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
@@ -164,21 +164,23 @@ int main(int argc, char* argv[]){
     clientApps.Stop(Seconds(10.0));
 
 //  Cattura i pacchetti e crea un file .pcap
-    pointToPoint.EnablePcapAll("task");
+    NS_LOG_INFO("Enable pcap tracing.");
+    //pointToPoint1.EnablePcap("task1-0-0.pcap",star.GetHub(),true);
+    csma1.EnablePcap("task1-0-5.pcap",csmaDevices1.Get(0), true);
+    pointToPoint0.EnablePcap("task1-0-7.pcap",p2pDevices.Get(1));
 
 //  ASCII Tracing    
     AsciiTraceHelper ascii;
-    pointToPoint.EnableAsciiAll(ascii.CreateFileStream("task.tr"));
-
+    //pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
+    csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(1));
     }
 
-    //  Inizio configurazione 1 :
+    //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if ( configuration == 1 ) {
     
     }
     
-
-     //  Inizio configurazione 2 :
+    //  Inizio configurazione 2 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if ( configuration == 2 ) {
     
     }

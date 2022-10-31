@@ -189,12 +189,19 @@ int main(int argc, char* argv[]){
         // printando ip
 
         std::ostream& os = std::cout;
+        printf("Node: %" PRIu32" ",star.GetHub()->GetId());
         star.GetHubIpv4Address(0).Print(os);
         puts("\n");
 
         for (uint32_t i = 0; i<csmaNodes1.GetN();i++){
-            printf("Node: %",csmaNodes1.Get(i)->GetId());
+            printf("Node: %" PRIu32" ",csmaNodes1.Get(i)->GetId());
             csmaInterfaces1.Get(i).first->GetAddress(1,0).GetLocal().Print(os);
+            puts("\n");
+        }
+
+        for (uint32_t i = 0; i<csmaNodes2.GetN();i++){
+            printf("Node: %" PRIu32" ",csmaNodes2.Get(i)->GetId());
+            csmaInterfaces2.Get(i).first->GetAddress(1,0).GetLocal().Print(os);
             puts("\n");
         }
 

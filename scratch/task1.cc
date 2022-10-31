@@ -44,6 +44,8 @@ int main(int argc, char* argv[]){
 
 //  Configurazione impostabile dinamicamente da linea di comando
     CommandLine cmd;
+    int configuration = 0;
+    cmd.AddValue("configuration", "numero configurazione",configuration);
     cmd.Parse (argc, argv);                    
 
     Time::SetResolution(Time::NS);                                                 
@@ -139,7 +141,7 @@ int main(int argc, char* argv[]){
     Ipv4InterfaceContainer csmaInterfaces2 = address.Assign(csmaDevices2);
 
 //  Inizio configurazione 0 :
-    if ( *argv[1] == '0' ) {
+    if ( configuration == 0 ) {
 
 //  Settando un UDP echo server sul nodo 1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
     UdpEchoServerHelper echoServer(9);
@@ -170,6 +172,17 @@ int main(int argc, char* argv[]){
 
     }
 
+    //  Inizio configurazione 1 :
+    if ( configuration == 1 ) {
+    
+    }
+    
+
+     //  Inizio configurazione 2 :
+    if ( configuration == 2 ) {
+    
+    }
+    
     Simulator::Run();
     Simulator::Destroy();
     return 0;

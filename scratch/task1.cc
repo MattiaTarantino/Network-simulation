@@ -147,9 +147,9 @@ int main(int argc, char* argv[]){
         uint16_t port = 2600;
         Address hubLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
         PacketSinkHelper packetSinkHelper("ns3::TcpSocketFactory", hubLocalAddress);
-        ApplicationContainer App_n1 = packetSinkHelper.Install(star.GetSpokeNode(1));
-        App_n1.Start(Seconds(1.0));
-        App_n1.Stop(Seconds(20.0));
+        ApplicationContainer sinkApp = packetSinkHelper.Install(star.GetSpokeNode(1));
+        sinkApp.Start(Seconds(1.0));
+        sinkApp.Stop(Seconds(20.0));
 
         // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1, uno su ogni nodo della stella
         OnOffHelper onOffHelper("ns3::TcpSocketFactory", Address());

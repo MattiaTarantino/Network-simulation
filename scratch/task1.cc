@@ -125,19 +125,19 @@ int main(int argc, char* argv[]){
     stack.Install(csmaNodes2.Get(1));
     stack.Install(csmaNodes2.Get(2));
 
-//  Associando gli indirizzi IP ai devices partendo dal network 10.1.1.0 per la stella, 192.118.1.0 per la prima LAN, 192.118.2.0 per la seconda LAN e 10.2.1.0 per la p2p,
-//  usando una maschera 255.255.255.0 per definire i bit allocabili. Di default gli indirizzi partono da .1 e incrementano monotonamente
+//  Associando gli indirizzi IP ai devices partendo dal network 10.0.1.0 per la stella con maschera 28, 192.118.1.0 per la prima LAN con maschera 24,
+//  192.118.2.0 per la seconda LAN con maschera 24 e 10.0.2.0 per la p2p con maschera 30
     NS_LOG_INFO("Assign IP Addresses.");
-    star.AssignIpv4Addresses(Ipv4AddressHelper("10.1.1.0", "255.255.255.0"));
+    star.AssignIpv4Addresses(Ipv4AddressHelper("10.0.1.0", "28"));
 
     Ipv4AddressHelper address;
-    address.SetBase("192.118.1.0", "255.255.255.0");
+    address.SetBase("192.118.1.0", "24");
     Ipv4InterfaceContainer csmaInterfaces1 = address.Assign(csmaDevices1);
 
-    address.SetBase("10.2.1.0", "255.255.255.0");
+    address.SetBase("10.0.2.0", "30");
     Ipv4InterfaceContainer p2pInterfaces = address.Assign(p2pDevices);
 
-    address.SetBase("192.118.2.0", "255.255.255.0");
+    address.SetBase("192.118.2.0", "24");
     Ipv4InterfaceContainer csmaInterfaces2 = address.Assign(csmaDevices2);
 
 //  Inizio configurazione 0 :   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

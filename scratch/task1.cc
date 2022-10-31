@@ -57,10 +57,6 @@ int main(int argc, char* argv[]){
 //  Creando i nodi che compongono la stella, escluso il nodo centrale n0
     uint32_t nSpokes = 4;
 
-//  Creando i nodi n6 e n7 che andranno a instaurare una connessione point-to-point
-    NodeContainer p2pNodes;
-    p2pNodes.Create(2);
-
 //  Creando i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella e n6 dato che verrà creato con una connessione point to point
     uint32_t nCsma1 = 1;
 
@@ -79,6 +75,10 @@ int main(int argc, char* argv[]){
     pointToPoint1.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
     pointToPoint1.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
     PointToPointStarHelper star(nSpokes, pointToPoint1);
+
+//  Creando i nodi n6 e n7 che andranno a instaurare una connessione point-to-point
+    NodeContainer p2pNodes;
+    p2pNodes.Create(2);
 
 //  Creando la prima LAN partendo da n4 e aggiungendo anche n6 facente parte della connessione point-to-point 
     NodeContainer csmaNodes1;

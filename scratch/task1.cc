@@ -159,12 +159,12 @@ int main(int argc, char* argv[]){
         onOffHelper.SetAttribute("PacketSize", UintegerValue(packetSize));
 
         // Impostazione dell' OnOff sul nodo n9
-        ApplicationContainer App2_n1;
+        ApplicationContainer clientApps;
         AddressValue remoteAddress(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port));
         onOffHelper.SetAttribute("Remote", remoteAddress);
-        App2_n1.Add(onOffHelper.Install(csmaNodes2.Get(2)));
-        App2_n1.Start(Seconds(3.0));
-        App2_n1.Stop(Seconds(15.0));
+        clientApps.Add(onOffHelper.Install(csmaNodes2.Get(2)));
+        clientApps.Start(Seconds(3.0));
+        clientApps.Stop(Seconds(15.0));
 
         /* PROVA UDP
 

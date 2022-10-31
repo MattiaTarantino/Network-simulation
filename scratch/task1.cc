@@ -141,7 +141,7 @@ int main(int argc, char* argv[]){
     Ipv4InterfaceContainer csmaInterfaces2 = address.Assign(csmaDevices2);
 
 //  Inizio configurazione 0 :   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*    if ( configuration == 0 ) {
+    if ( configuration == 0 ) {
         // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
         NS_LOG_INFO("Create applications.");
         uint16_t port = 2600;
@@ -166,7 +166,7 @@ int main(int argc, char* argv[]){
         AsciiTraceHelper ascii;
         //pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
         csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(1));
-    }*/
+    }
 
     //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if ( configuration == 1 ) {

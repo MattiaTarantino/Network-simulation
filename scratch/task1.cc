@@ -76,14 +76,16 @@ int main(int argc, char* argv[]){
     pointToPoint1.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
     PointToPointStarHelper star(nSpokes, pointToPoint1);
 
+//  Creando la prima LAN partendo da n4 aggiungendo anche n6 facente parte della connessione point-to-point 
+    NodeContainer csmaNodes1;
+    csmaNodes1.Add(star.GetSpokeNode(3));
+    csmaNodes1.Create(nCsma1);
+
 //  Creando i nodi n6 e n7 che andranno a instaurare una connessione point-to-point
     NodeContainer p2pNodes;
     p2pNodes.Create(2);
 
-//  Creando la prima LAN partendo da n4 e aggiungendo anche n6 facente parte della connessione point-to-point 
-    NodeContainer csmaNodes1;
-    csmaNodes1.Add(star.GetSpokeNode(3));
-    csmaNodes1.Create(nCsma1);
+//  Aggiungendo alla prima LAN n6, facente parte della connessione point-to-point
     csmaNodes1.Add(p2pNodes.Get(0));
 
 //  Configurando i parametri della prima LAN

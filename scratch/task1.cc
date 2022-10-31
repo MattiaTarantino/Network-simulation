@@ -114,7 +114,7 @@ int main(int argc, char* argv[]){
     NetDeviceContainer csmaDevices2;
     csmaDevices2 = csma2.Install(csmaNodes2);
 
-//  Installando una Stack Internet (TCO,UDP,IP, ecc..) su ognuno dei nodi nel NodeContainer
+//  Installando una Stack Internet (TCO,UDP,IP, ecc..) su ognuno dei nodi
     NS_LOG_INFO("Install internet stack on all nodes.");
     InternetStackHelper stack;
     star.InstallStack(stack);

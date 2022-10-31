@@ -128,13 +128,13 @@ int main(int argc, char* argv[]){
 //  Associando gli indirizzi IP ai devices partendo dal network 10.0.1.0 per la stella, 192.118.1.0 per la prima LAN, 192.118.2.0 per la seconda LAN e 10.0.2.0 per la p2p,
 //  usando una maschera 255.255.255.0 per definire i bit allocabili. Di default gli indirizzi partono da .1 e incrementano monotonamente
     NS_LOG_INFO("Assign IP Addresses.");
-    star.AssignIpv4Addresses(Ipv4AddressHelper("10.0.1.0", "255.255.255.0"));
+    star.AssignIpv4Addresses(Ipv4AddressHelper("10.1.1.0", "255.255.255.0"));
 
     Ipv4AddressHelper address;
     address.SetBase("192.118.1.0", "255.255.255.0");
     Ipv4InterfaceContainer csmaInterfaces1 = address.Assign(csmaDevices1);
 
-    address.SetBase("10.0.2.0", "255.255.255.0");
+    address.SetBase("10.2.1.0", "255.255.255.0");
     Ipv4InterfaceContainer p2pInterfaces = address.Assign(p2pDevices);
 
     address.SetBase("192.118.2.0", "255.255.255.0");
@@ -142,7 +142,7 @@ int main(int argc, char* argv[]){
 
 //  Inizio configurazione 0 :   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if ( configuration == 0 ) {
-
+/*
 //  Settando un UDP echo server sul nodo 1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
     UdpEchoServerHelper echoServer(9);
 
@@ -162,12 +162,12 @@ int main(int argc, char* argv[]){
     ApplicationContainer clientApps = echoClient.Install(nodes.Get(0));
     clientApps.Start(Seconds(2.0));
     clientApps.Stop(Seconds(10.0));
-
+*/
 //  Cattura i pacchetti e crea un file .pcap
     NS_LOG_INFO("Enable pcap tracing.");
     //pointToPoint1.EnablePcap("task1-0-0.pcap",star.GetHub(),true);
-    csma1.EnablePcap("task1-0-5.pcap",csmaDevices1.Get(0), true);
-    pointToPoint0.EnablePcap("task1-0-7.pcap",p2pDevices.Get(1));
+    csma1.EnablePcap("task1-0",csmaDevices1.Get(0));
+    pointToPoint0.EnablePcap("task1-0",p2pDevices.Get(1));
 
 //  ASCII Tracing    
     AsciiTraceHelper ascii;

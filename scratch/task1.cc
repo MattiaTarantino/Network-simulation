@@ -125,7 +125,7 @@ int main(int argc, char* argv[]){
     stack.Install(csmaNodes2.Get(1));
     stack.Install(csmaNodes2.Get(2));
 
-//  Associando gli indirizzi IP ai devices partendo dal network 10.0.1.0 per la stella, 192.118.1.0 per la prima LAN, 192.118.2.0 per la seconda LAN e 10.0.2.0 per la p2p,
+//  Associando gli indirizzi IP ai devices partendo dal network 10.1.1.0 per la stella, 192.118.1.0 per la prima LAN, 192.118.2.0 per la seconda LAN e 10.2.1.0 per la p2p,
 //  usando una maschera 255.255.255.0 per definire i bit allocabili. Di default gli indirizzi partono da .1 e incrementano monotonamente
     NS_LOG_INFO("Assign IP Addresses.");
     star.AssignIpv4Addresses(Ipv4AddressHelper("10.1.1.0", "255.255.255.0"));

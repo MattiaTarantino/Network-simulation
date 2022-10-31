@@ -52,67 +52,67 @@ int main(int argc, char* argv[]){
     LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
     LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
 
-//  Creo i nodi che compongono la stella, escluso il nodo centrale n0
+//  Creando i nodi che compongono la stella, escluso il nodo centrale n0
     uint32_t nSpokes = 4;
 
-//  Creo i nodi n6 e n7 che andranno a instaurare una connessione point-to-point
+//  Creando i nodi n6 e n7 che andranno a instaurare una connessione point-to-point
     NodeContainer p2pNodes;
     p2pNodes.Create(2);
 
-//  Creo i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella e n6 dato che verrà creato con una connessione point to point
+//  Creando i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella e n6 dato che verrà creato con una connessione point to point
     uint32_t nCsma1 = 1;
 
 //  ??????????
     nCsma1 = nCsma1 == 0 ? 1 : nCsma1;
 
-//  Creo i nodi che compongono la seconda LAN, escluso n7 essendo già considerato nella connessione point-to-point
+//  Creando i nodi che compongono la seconda LAN, escluso n7 essendo già considerato nella connessione point-to-point
     uint32_t nCsma2 = 2;
 
 //  ??????????
     nCsma2 = nCsma2 == 0 ? 1 : nCsma2;
 
-//  Creo la stella n0-n{1,2,3,4} e configuro i parametri
+//  Creando la stella n0-n{1,2,3,4} e configuro i parametri
     NS_LOG_INFO("Build star topology.");
     PointToPointHelper pointToPoint1;
     pointToPoint1.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
     pointToPoint1.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
     PointToPointStarHelper star(nSpokes, pointToPoint1);
 
-//  Creo la prima LAN partendo da n4 e aggiungendo anche n6 facente parte della connessione point-to-point 
+//  Creando la prima LAN partendo da n4 e aggiungendo anche n6 facente parte della connessione point-to-point 
     NodeContainer csmaNodes1;
     csmaNodes1.Add(star.GetSpokeNode(3));
     csmaNodes1.Create(nCsma1);
     csmaNodes1.Add(p2pNodes.Get(0));
 
-//  Configuro i parametri della prima LAN
+//  Configurando i parametri della prima LAN
     CsmaHelper csma1;
     csma1.SetChannelAttribute("DataRate", StringValue("25Mbps"));
     csma1.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
 
-//  Installo la Csma sui nodi csmaNodes1
+//  Installando la Csma sui nodi csmaNodes1
     NetDeviceContainer csmaDevices1;
     csmaDevices1 = csma1.Install(csmaNodes1);
 
-//  Creo la seconda LAN partendo da n7
+//  Creando la seconda LAN partendo da n7
     NodeContainer csmaNodes2;
     csmaNodes2.Add(p2pNodes.Get(1));
     csmaNodes2.Create(nCsma2);
 
-//  Configuro i parametri della connessione point-to-point tra n6 e n7
+//  Configurando i parametri della connessione point-to-point tra n6 e n7
     PointToPointHelper pointToPoint0;
     pointToPoint0.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
     pointToPoint0.SetChannelAttribute("Delay", TimeValue(MicroSeconds(10)));
 
-//  Installo un point-to-point net device sui nodi n6 e n7 e un canale point-to-point tra essi
+//  Installando un point-to-point net device sui nodi n6 e n7 e un canale point-to-point tra essi
     NetDeviceContainer p2pDevices;
     p2pDevices = pointToPoint0.Install(p2pNodes);
 
-//  Configuro i parametri della seconda LAN
+//  Configurando i parametri della seconda LAN
     CsmaHelper csma2;
     csma2.SetChannelAttribute("DataRate", StringValue("30Mbps"));
     csma2.SetChannelAttribute("Delay", TimeValue(MicroSeconds(20)));
 
-//  Installo la Csma sui nodi csmaNodes2
+//  Installando la Csma sui nodi csmaNodes2
     NetDeviceContainer csmaDevices2;
     csmaDevices2 = csma2.Install(csmaNodes2);
 
@@ -142,37 +142,30 @@ int main(int argc, char* argv[]){
 
 //  Inizio configurazione 0 :   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if ( configuration == 0 ) {
-/*
-//  Settando un UDP echo server sul nodo 1 che abbiamo creato che genera traffico dopo 1 sec e termina dopo 10 sec 
-    UdpEchoServerHelper echoServer(9);
+        // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
+        NS_LOG_INFO("Create applications.");
+        uint16_t port = 2600;
+        Address hubLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
+        PacketSinkHelper packetSinkHelper("ns3::TcpSocketFactory", hubLocalAddress);
+        ApplicationContainer App_n1 = packetSinkHelper.Install(star.GetSpokeNode(1));
+        App_n1.Start(Seconds(1.0));
+        App_n1.Stop(Seconds(20.0));
 
-    ApplicationContainer serverApps = echoServer.Install(nodes.Get(1));
-    serverApps.Start(Seconds(1.0));
-    serverApps.Stop(Seconds(10.0));
+        // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1, uno su ogni nodo della stella
+        OnOffHelper onOffHelper("ns3::TcpSocketFactory", Address());
+        onOffHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+        onOffHelper.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
 
-//  Settando un UDP echo client con Remote Address del nodo 1 e Remote Port 9?
-//  Con max numero di pacchetti, con intervallo di tempo tra un pacchetto e l'altro, e il payload di un pacchetto
-//  Settando un UDP echo client sul nodo 0 che abbiamo creato che riceve traffico dopo 2 sec e termina dopo 10 sec
+        //  Cattura i pacchetti e crea un file .pcap
+        NS_LOG_INFO("Enable pcap tracing.");
+        //pointToPoint1.EnablePcap("task1-0-0.pcap",star.GetHub(),true);
+        csma1.EnablePcap("task1-0",csmaDevices1.Get(0));
+        pointToPoint0.EnablePcap("task1-0",p2pDevices.Get(1));
 
-    UdpEchoClientHelper echoClient(interfaces.GetAddress(1), 9);
-    echoClient.SetAttribute("MaxPackets", UintegerValue(1));
-    echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));
-    echoClient.SetAttribute("PacketSize", UintegerValue(1024));
-
-    ApplicationContainer clientApps = echoClient.Install(nodes.Get(0));
-    clientApps.Start(Seconds(2.0));
-    clientApps.Stop(Seconds(10.0));
-*/
-//  Cattura i pacchetti e crea un file .pcap
-    NS_LOG_INFO("Enable pcap tracing.");
-    //pointToPoint1.EnablePcap("task1-0-0.pcap",star.GetHub(),true);
-    csma1.EnablePcap("task1-0",csmaDevices1.Get(0));
-    pointToPoint0.EnablePcap("task1-0",p2pDevices.Get(1));
-
-//  ASCII Tracing    
-    AsciiTraceHelper ascii;
-    //pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
-    csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(1));
+        //  ASCII Tracing    
+        AsciiTraceHelper ascii;
+        //pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
+        csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(1));
     }
 
     //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

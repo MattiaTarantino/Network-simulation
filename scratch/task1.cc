@@ -149,7 +149,7 @@ int main(int argc, char* argv[]){
         // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
         NS_LOG_INFO("Create applications.");
 
-        uint16_t port = 2600;
+        uint32_t port = 2600;
         Address hubLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
         PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", hubLocalAddress);
         ApplicationContainer sinkApp = sinkHelper.Install(star.GetSpokeNode(1));

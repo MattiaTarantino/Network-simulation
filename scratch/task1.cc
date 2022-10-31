@@ -146,8 +146,8 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Create applications.");
         uint16_t port = 2600;
         Address hubLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
-        PacketSinkHelper packetSinkHelper("ns3::TcpSocketFactory", hubLocalAddress);
-        ApplicationContainer sinkApp = packetSinkHelper.Install(star.GetSpokeNode(1));
+        PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", hubLocalAddress);
+        ApplicationContainer sinkApp = sinkHelper.Install(star.GetSpokeNode(1));
         sinkApp.Start(Seconds(1.0));
         sinkApp.Stop(Seconds(20.0));
 

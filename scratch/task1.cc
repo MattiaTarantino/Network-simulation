@@ -128,20 +128,20 @@ int main(int argc, char* argv[]){
 //  Associando gli indirizzi IP ai devices partendo dal network 10.0.1.0 per la stella con maschera 28, 192.118.1.0 per la prima LAN con maschera 24,
 //  192.118.2.0 per la seconda LAN con maschera 24 e 10.0.2.0 per la p2p con maschera 30
     NS_LOG_INFO("Assign IP Addresses.");
-    star.AssignIpv4Addresses(Ipv4AddressHelper("10.0.1.0", "28"));
+    star.AssignIpv4Addresses(Ipv4AddressHelper("10.0.1.0", "/28"));
 
     Ipv4AddressHelper address;
-    address.SetBase("192.118.1.0", "24");
+    address.SetBase("192.118.1.0", "/24");
     Ipv4InterfaceContainer csmaInterfaces1 = address.Assign(csmaDevices1);
 
-    address.SetBase("10.0.2.0", "30");
+    address.SetBase("10.0.2.0", "/30");
     Ipv4InterfaceContainer p2pInterfaces = address.Assign(p2pDevices);
 
-    address.SetBase("192.118.2.0", "24");
+    address.SetBase("192.118.2.0", "/24");
     Ipv4InterfaceContainer csmaInterfaces2 = address.Assign(csmaDevices2);
 
 //  Inizio configurazione 0 :   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    if ( configuration == 0 ) {
+/*    if ( configuration == 0 ) {
         // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
         NS_LOG_INFO("Create applications.");
         uint16_t port = 2600;
@@ -166,7 +166,7 @@ int main(int argc, char* argv[]){
         AsciiTraceHelper ascii;
         //pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
         csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(1));
-    }
+    }*/
 
     //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if ( configuration == 1 ) {

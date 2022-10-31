@@ -159,12 +159,12 @@ int main(int argc, char* argv[]){
         onOffHelper.SetAttribute("PacketSize", UintegerValue(packetSize));
 
         // Impostazione dell' OnOff sul nodo n9
-        ApplicationContainer spokeApp;
+        ApplicationContainer App2_n1;
         AddressValue remoteAddress(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port));
         onOffHelper.SetAttribute("Remote", remoteAddress);
-        App_n1.Add(onOffHelper.Install(csmaNodes2.Get(2)));
-        App_n1.Start(Seconds(3.0));
-        App_n1.Stop(Seconds(15.0));
+        App2_n1.Add(onOffHelper.Install(csmaNodes2.Get(2)));
+        App2_n1.Start(Seconds(3.0));
+        App2_n1.Stop(Seconds(15.0));
 
         //  Cattura i pacchetti e crea un file .pcap
         NS_LOG_INFO("Enable pcap tracing.");

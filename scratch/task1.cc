@@ -144,6 +144,7 @@ int main(int argc, char* argv[]){
     if ( configuration == 0 ) {
         // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
         NS_LOG_INFO("Create applications.");
+
         uint16_t port = 2600;
         Address hubLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
         PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", hubLocalAddress);
@@ -188,8 +189,13 @@ int main(int argc, char* argv[]){
         //pointToPoint1.EnablePcap("task1-0-0.pcap",star.GetHub(),true);
 
         // TEST PCAP client server
-        csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
-        pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);
+        /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
+        pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
+
+        pointToPoint0.EnablePcapAll("p2p0");
+        csma1.EnablePcapAll("csma1");
+        pointToPoint1.EnablePcapAll("p2p1");
+        csma2.EnablePcapAll("csma2");
 
         //  ASCII Tracing    
         AsciiTraceHelper ascii;

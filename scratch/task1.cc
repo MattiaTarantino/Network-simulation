@@ -23,6 +23,8 @@
 #include "ns3/csma-module.h"
 #include "ns3/ipv4-global-routing-helper.h"
 #include "ns3/point-to-point-module.h"
+#include "stdio.h"
+#include "inttypes.h"
 
 //                     Network Topology :
 //
@@ -183,6 +185,18 @@ int main(int argc, char* argv[]){
         clientApps.Stop(Seconds(15.0));*/
 
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
+
+        // printando ip
+
+        std::ostream& os = std::cout;
+        star.GetHubIpv4Address(0).Print(os);
+        puts("\n");
+
+        for (uint32_t i = 0; i<csmaNodes1.GetN();i++){
+            printf("Node: %",csmaNodes1.Get(i)->GetId());
+            csmaInterfaces1.Get(i).first->GetAddress(1,0).GetLocal().Print(os);
+            puts("\n");
+        }
 
         //  Cattura i pacchetti e crea un file .pcap
         NS_LOG_INFO("Enable pcap tracing.");

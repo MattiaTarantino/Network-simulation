@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 
 //  Configurazione impostabile dinamicamente da linea di comando
     CommandLine cmd;
-    int configuration = 0;
+    int configuration = 1;
     cmd.AddValue("configuration", "numero configurazione", configuration);
     cmd.Parse (argc, argv);                    
 
@@ -146,17 +146,17 @@ int main(int argc, char* argv[]){
 
 //  Inizio configurazione 0 :   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if ( configuration == 0 ) {
-        // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
         NS_LOG_INFO("Create applications.");
 
+        // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
         uint16_t port = 2600;
         Address sinkLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
         PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", sinkLocalAddress);
         ApplicationContainer sinkApp = sinkHelper.Install(star.GetSpokeNode(0));
         sinkApp.Start(Seconds(1.0));
         sinkApp.Stop(Seconds(20.0));
-        //
-        // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1, uno su ogni nodo della stella
+
+        // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1
         OnOffHelper clientHelper("ns3::TcpSocketFactory", Address());
         clientHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
@@ -189,34 +189,6 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
-        // printando ip
-
-        std::ostream& os = std::cout;
-        printf("Node: %" PRIu32" ",star.GetHub()->GetId());
-        star.GetHubIpv4Address(0).Print(os);
-        puts("\n");
-        printf("Node: %" PRIu32" ",star.GetSpokeNode(0)->GetId());
-        star.GetSpokeIpv4Address(0).Print(os);
-        puts("\n");
-        printf("Node: %" PRIu32" ",star.GetSpokeNode(1)->GetId());
-        star.GetSpokeIpv4Address(1).Print(os);
-        puts("\n");
-        printf("Node: %" PRIu32" ",star.GetSpokeNode(2)->GetId());
-        star.GetSpokeIpv4Address(2).Print(os);
-        puts("\n");
-
-        for (uint32_t i = 0; i<csmaNodes1.GetN();i++){
-            printf("Node: %" PRIu32" ",csmaNodes1.Get(i)->GetId());
-            csmaInterfaces1.Get(i).first->GetAddress(1,0).GetLocal().Print(os);
-            puts("\n");
-        }
-
-        for (uint32_t i = 0; i<csmaNodes2.GetN();i++){
-            printf("Node: %" PRIu32" ",csmaNodes2.Get(i)->GetId());
-            csmaInterfaces2.Get(i).first->GetAddress(1,0).GetLocal().Print(os);
-            puts("\n");
-        }
-
         //  Cattura i pacchetti e crea un file .pcap
         NS_LOG_INFO("Enable pcap tracing.");
         //pointToPoint1.EnablePcap("task1-0-0.pcap",star.GetHub(),true);
@@ -243,12 +215,112 @@ int main(int argc, char* argv[]){
 
     //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if ( configuration == 1 ) {
-    
+
+        // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
+        uint16_t port1 = 2600;
+        Address sinkLocalAddress1(InetSocketAddress(Ipv4Address::GetAny(), port1));
+        PacketSinkHelper sinkHelper1("ns3::TcpSocketFactory", sinkLocalAddress1);
+        ApplicationContainer sinkApp1 = sinkHelper1.Install(star.GetSpokeNode(0));
+        sinkApp1.Start(Seconds(1.0));
+        sinkApp1.Stop(Seconds(20.0));
+
+        // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1
+        OnOffHelper clientHelper1("ns3::TcpSocketFactory", Address());
+        clientHelper1.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+        clientHelper1.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+        uint32_t packetSize1 = 2500;
+        clientHelper1.SetAttribute("PacketSize", UintegerValue(packetSize1));
+
+        // Impostazione dell' OnOff sul nodo n9
+        ApplicationContainer clientApps1;
+        AddressValue remoteAddress1(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port1));
+        clientHelper1.SetAttribute("Remote", remoteAddress1);
+        clientApps1.Add(clientHelper1.Install(csmaNodes2.Get(2)));
+        clientApps1.Start(Seconds(5.0));
+        clientApps1.Stop(Seconds(15.0));
+
+        // Creazione di un packet sink sul nodo n2 della stella, per ricevere i pacchetti
+        uint16_t port2 = 7777;
+        Address sinkLocalAddress2(InetSocketAddress(Ipv4Address::GetAny(), port2));
+        PacketSinkHelper sinkHelper2("ns3::TcpSocketFactory", sinkLocalAddress2);
+        ApplicationContainer sinkApp2 = sinkHelper2.Install(star.GetSpokeNode(1));
+        sinkApp2.Start(Seconds(1.0));
+        sinkApp2.Stop(Seconds(20.0));
+
+        // Creazione di un' applicazioni OnOff per mandare TCP al nodo n2
+        OnOffHelper clientHelper2("ns3::TcpSocketFactory", Address());
+        clientHelper2.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+        clientHelper2.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+        uint32_t packetSize2 = 5000;
+        clientHelper2.SetAttribute("PacketSize", UintegerValue(packetSize2));
+
+        // Impostazione dell' OnOff sul nodo n8
+        ApplicationContainer clientApps2;
+        AddressValue remoteAddress2(InetSocketAddress(csmaInterfaces2.GetAddress(1) , port2));
+        clientHelper2.SetAttribute("Remote", remoteAddress2);
+        clientApps2.Add(clientHelper2.Install(csmaNodes2.Get(1)));
+        clientApps2.Start(Seconds(2.0));
+        clientApps2.Stop(Seconds(9.0));
+
+        NS_LOG_INFO("Enable static global routing.");
+        Ipv4GlobalRoutingHelper::PopulateRoutingTables();
+
+        //  Cattura i pacchetti e crea un file .pcap
+        NS_LOG_INFO("Enable pcap tracing.");
+        //pointToPoint1.EnablePcap("task1-0-0.pcap",star.GetHub(),true);
+
+        // TEST PCAP client server
+        /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
+        pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
+
+        pointToPoint0.EnablePcapAll("p2p0");
+        csma1.EnablePcapAll("csma1");
+        pointToPoint1.EnablePcapAll("p2p1");
+        csma2.EnablePcapAll("csma2");
+
+        /*  ASCII Tracing    
+        AsciiTraceHelper ascii;
+        pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
+        csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(3));
+
+        pointToPoint0.EnableAsciiAll("p2p0.tr");
+        csma1.EnableAsciiAll("csma1.tr");
+        pointToPoint1.EnableAsciiAll("p2p1.tr");
+        csma2.EnableAsciiAll("csma2.tr");*/
+
     }
     
     //  Inizio configurazione 2 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if ( configuration == 2 ) {
     
+    }
+
+    // printando ip
+
+    std::ostream& os = std::cout;
+    printf("Node: %" PRIu32" ",star.GetHub()->GetId());
+    star.GetHubIpv4Address(0).Print(os);
+    puts("\n");
+    printf("Node: %" PRIu32" ",star.GetSpokeNode(0)->GetId());
+    star.GetSpokeIpv4Address(0).Print(os);
+    puts("\n");
+    printf("Node: %" PRIu32" ",star.GetSpokeNode(1)->GetId());
+    star.GetSpokeIpv4Address(1).Print(os);
+    puts("\n");
+    printf("Node: %" PRIu32" ",star.GetSpokeNode(2)->GetId());
+    star.GetSpokeIpv4Address(2).Print(os);
+    puts("\n");
+
+    for (uint32_t i = 0; i<csmaNodes1.GetN();i++){
+        printf("Node: %" PRIu32" ",csmaNodes1.Get(i)->GetId());
+        csmaInterfaces1.Get(i).first->GetAddress(1,0).GetLocal().Print(os);
+        puts("\n");
+    }
+
+    for (uint32_t i = 0; i<csmaNodes2.GetN();i++){
+        printf("Node: %" PRIu32" ",csmaNodes2.Get(i)->GetId());
+        csmaInterfaces2.Get(i).first->GetAddress(1,0).GetLocal().Print(os);
+        puts("\n");
     }
 
     NS_LOG_INFO("Run Simulation.");

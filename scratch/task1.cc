@@ -194,7 +194,7 @@ int main(int argc, char* argv[]){
 
     //  ASCII Tracing client server  
         AsciiTraceHelper ascii;
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));       TODO n1
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-0-n1.tr"),star.GetSpokeNode(0));       //TODO n1
         csma2.EnableAscii(ascii.CreateFileStream("task1-0-n9.tr"),csmaDevices2.Get(2));
     }
 
@@ -258,8 +258,8 @@ int main(int argc, char* argv[]){
 
     //  ASCII Tracing    
         AsciiTraceHelper ascii;
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-1.tr"),star.GetSpokeNode(0));       TODO n1
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-2.tr"),star.GetSpokeNode(1));       TODO n2
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n1.tr"),star.GetSpokeNode(0));       TODO n1
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n2.tr"),star.GetSpokeNode(1));       TODO n2
         csma2.EnableAscii(ascii.CreateFileStream("task1-1-n9.tr"),csmaDevices2.Get(2));
         csma2.EnableAscii(ascii.CreateFileStream("task1-1-n8.tr"),csmaDevices2.Get(1));
 
@@ -341,6 +341,14 @@ int main(int argc, char* argv[]){
         // TODO n0
         csma1.EnablePcap("task1-2-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-2-n7.pcap",p2pDevices.Get(1),true,true);
+
+    //  ASCII Tracing    
+        AsciiTraceHelper ascii;
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n1.tr"),star.GetSpokeNode(0));       TODO n1
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n2.tr"),star.GetSpokeNode(1));       TODO n2
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n3.tr"),star.GetSpokeNode(2));       TODO n3
+        csma2.EnableAscii(ascii.CreateFileStream("task1-2-n9.tr"),csmaDevices2.Get(2));
+        csma2.EnableAscii(ascii.CreateFileStream("task1-2-n8.tr"),csmaDevices2.Get(1));
     
     }
 

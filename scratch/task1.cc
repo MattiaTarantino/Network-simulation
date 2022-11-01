@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 
 //  Configurazione impostabile dinamicamente da linea di comando
     CommandLine cmd;
-    int configuration = 1;
+    int configuration = 2;
     cmd.AddValue("configuration", "numero configurazione", configuration);
     cmd.Parse (argc, argv);                    
 
@@ -207,10 +207,10 @@ int main(int argc, char* argv[]){
         //pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
         //csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(3));
 
-        pointToPoint0.EnableAsciiAll("p2p0.tr");
-        csma1.EnableAsciiAll("csma1.tr");
-        pointToPoint1.EnableAsciiAll("p2p1.tr");
-        csma2.EnableAsciiAll("csma2.tr");
+        pointToPoint0.EnableAsciiAll("p2p0");
+        csma1.EnableAsciiAll("csma1");
+        pointToPoint1.EnableAsciiAll("p2p1");
+        csma2.EnableAsciiAll("csma2");
     }
 
 //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -292,6 +292,33 @@ int main(int argc, char* argv[]){
     
 //  Inizio configurazione 2 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if ( configuration == 2 ) {
+
+        UdpEchoServerHelper echoServer(63);
+
+        ApplicationContainer serverApps = echoServer.Install(star.GetSpokeNode(1));
+        serverApps.Start(Seconds(1.0));
+        serverApps.Stop(Seconds(20.0));
+
+        uint32_t maxPacketCount = 5;
+        Time interPacketInterval = Seconds(2.);
+        UdpEchoClientHelper echoClient(star.GetSpokeIpv4Address(1), 63);
+        echoClient.SetAttribute("PacketSize", UintegerValue(2560));
+        echoClient.SetAttribute("MaxPackets", UintegerValue(maxPacketCount));
+        echoClient.SetAttribute("Interval", TimeValue(interPacketInterval));
+
+        ApplicationContainer clientApps = echoClient.Install(csmaNodes2.Get(1));
+        clientApps.Start(Seconds(3.0));
+        clientApps.Stop(Seconds(15.0));
+
+        //echoClient.SetFill(clientApps.Get(0),"5823635");
+
+        pointToPoint0.EnablePcapAll("p2p0");
+        csma1.EnablePcapAll("csma1");
+        pointToPoint1.EnablePcapAll("p2p1");
+        csma2.EnablePcapAll("csma2");
+
+        NS_LOG_INFO("Enable static global routing.");
+        Ipv4GlobalRoutingHelper::PopulateRoutingTables();
     
     }
 

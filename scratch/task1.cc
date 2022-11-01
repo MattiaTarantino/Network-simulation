@@ -287,15 +287,16 @@ int main(int argc, char* argv[]){
 
         //echoClient.SetFill(clientApps.Get(0),"5823635");
 
-        pointToPoint.EnablePcapAll("pointToPoint");
-        csma1.EnablePcap("csma1", csmaDevices1.Get(1), true);
-        csma2.EnablePcap("csma2", csmaDevices2.Get(1), true);
-        csma2.EnablePcap("csma2", csmaDevices2.Get(2), true);
-      //  csma1.EnablePcapAll("csma1");
-     //   csma2.EnablePcapAll("csma2");
-
         NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
+    
+    //  Cattura i pacchetti e crea un file .pcap
+        NS_LOG_INFO("Enable pcap tracing.");
+
+    //  TEST PCAP sui nodi n0, n5, n7
+        // TODO n0
+        csma1.EnablePcap("task1-2-5.pcap",csmaDevices1.Get(1),true,true);
+        pointToPoint.EnablePcap("task1-2-7.pcap",p2pDevices.Get(1),true,true);
     
     }
 

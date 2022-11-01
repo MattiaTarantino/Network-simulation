@@ -189,21 +189,19 @@ int main(int argc, char* argv[]){
 
     //  TEST PCAP sui nodi n0, n5, n7
         // TODO n0
-        csma1.EnablePcap("task1-0",csmaDevices1.Get(1),true);
-        pointToPoint.EnablePcap("task1-0",p2pDevices.Get(1),true);
+        csma1.EnablePcap("task1-0-5.pcap",csmaDevices1.Get(1),true,true);
+        pointToPoint.EnablePcap("task1-0-7.pcap",p2pDevices.Get(1),true,true);
 
     //  ASCII Tracing client server  
         AsciiTraceHelper ascii;
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-1.tr"),star.GetSpokeNode(0));       TODO n1
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-2.tr"),star.GetSpokeNode(1));       TODO n2
-        csma2.EnableAscii(ascii.CreateFileStream("task1-1-9.tr"),csmaDevices2.Get(2));
-        csma2.EnableAscii(ascii.CreateFileStream("task1-1-8.tr"),csmaDevices2.Get(1));
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));       TODO n1
+        csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(2));
     }
 
 //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if ( configuration == 1 ) {
 
-        // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
+    //  Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
         uint16_t port1 = 2600;
         Address sinkLocalAddress1(InetSocketAddress(Ipv4Address::GetAny(), port1));
         PacketSinkHelper sinkHelper1("ns3::TcpSocketFactory", sinkLocalAddress1);
@@ -211,21 +209,21 @@ int main(int argc, char* argv[]){
         sinkApp1.Start(Seconds(1.0));
         sinkApp1.Stop(Seconds(20.0));
 
-        // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1
+    //  Creazione di un' applicazioni OnOff per mandare TCP al nodo n1
         OnOffHelper clientHelper1("ns3::TcpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(0), port1));
         clientHelper1.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper1.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize1 = 2500;
         clientHelper1.SetAttribute("PacketSize", UintegerValue(packetSize1));
 
-        // Impostazione dell' OnOff sul nodo n9
+    //  Impostazione dell' OnOff sul nodo n9
         ApplicationContainer clientApps1 = clientHelper1.Install(csmaNodes2.Get(2));
         AddressValue remoteAddress1(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port1));
         clientHelper1.SetAttribute("Remote", remoteAddress1);
         clientApps1.Start(Seconds(5.0));
         clientApps1.Stop(Seconds(15.0));
 
-        // Creazione di un packet sink sul nodo n2 della stella, per ricevere i pacchetti
+    //  Creazione di un packet sink sul nodo n2 della stella, per ricevere i pacchetti
         uint16_t port2 = 7777;
         Address sinkLocalAddress2(InetSocketAddress(Ipv4Address::GetAny(), port2));
         PacketSinkHelper sinkHelper2("ns3::TcpSocketFactory", sinkLocalAddress2);
@@ -233,14 +231,14 @@ int main(int argc, char* argv[]){
         sinkApp2.Start(Seconds(1.0));
         sinkApp2.Stop(Seconds(20.0));
 
-        // Creazione di un' applicazioni OnOff per mandare TCP al nodo n2
+    //  Creazione di un' applicazioni OnOff per mandare TCP al nodo n2
         OnOffHelper clientHelper2("ns3::TcpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(1), port2));
         clientHelper2.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper2.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize2 = 5000;
         clientHelper2.SetAttribute("PacketSize", UintegerValue(packetSize2));
 
-        // Impostazione dell' OnOff sul nodo n8
+    //  Impostazione dell' OnOff sul nodo n8
         ApplicationContainer clientApps2 = clientHelper2.Install(csmaNodes2.Get(1)) ;
         AddressValue remoteAddress2(InetSocketAddress(csmaInterfaces2.GetAddress(1) , port2));
         clientHelper2.SetAttribute("Remote", remoteAddress2);
@@ -250,25 +248,20 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
-        //  Cattura i pacchetti e crea un file .pcap
+    //  Cattura i pacchetti e crea un file .pcap
         NS_LOG_INFO("Enable pcap tracing.");
-        //pointToPoint1.EnablePcap("task1-0-0.pcap",star.GetHub(),true);
 
     //  TEST PCAP sui nodi n0, n5, n7
         // TODO n0
-        csma1.EnablePcap("task1-1",csmaDevices1.Get(1),true);
-        pointToPoint.EnablePcap("task1-1",p2pDevices.Get(1),true);
-
-      /* 
-        pointToPoint.EnablePcapAll("pointToPoint");
-        csma1.EnablePcap("csma1", csmaDevices1.Get(1), true);
-        csma2.EnablePcap("csma2", csmaDevices2.Get(1), true);
-        csma2.EnablePcap("csma2", csmaDevices2.Get(2), true);*/
+        csma1.EnablePcap("task1-1-5.pcap",csmaDevices1.Get(1),true,true);
+        pointToPoint.EnablePcap("task1-1-7.pcap",p2pDevices.Get(1),true,true);
 
     //  ASCII Tracing    
         AsciiTraceHelper ascii;
-        pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
-        csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(3));
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-1.tr"),star.GetSpokeNode(0));       TODO n1
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-2.tr"),star.GetSpokeNode(1));       TODO n2
+        csma2.EnableAscii(ascii.CreateFileStream("task1-1-9.tr"),csmaDevices2.Get(2));
+        csma2.EnableAscii(ascii.CreateFileStream("task1-1-8.tr"),csmaDevices2.Get(1));
 
     }
     

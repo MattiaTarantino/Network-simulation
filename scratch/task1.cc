@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 
 //  Configurazione impostabile dinamicamente da linea di comando
     CommandLine cmd;
-    int configuration = 2;
+    int configuration = 0;
     cmd.AddValue("configuration", "numero configurazione", configuration);
     cmd.Parse (argc, argv);                    
 
@@ -154,17 +154,17 @@ int main(int argc, char* argv[]){
         sinkApp.Stop(Seconds(20.0));
 
         // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1
-        OnOffHelper clientHelper("ns3::TcpSocketFactory", Address());
+        OnOffHelper clientHelper("ns3::TcpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(0), port));
         clientHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize = 1500;
         clientHelper.SetAttribute("PacketSize", UintegerValue(packetSize));
 
         // Impostazione dell' OnOff sul nodo n9
-        ApplicationContainer clientApps;
+        ApplicationContainer clientApps = clientHelper.Install(csmaNodes2.Get(2));
         AddressValue remoteAddress(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port));
         clientHelper.SetAttribute("Remote", remoteAddress);
-        clientApps.Add(clientHelper.Install(csmaNodes2.Get(2)));
+       // clientApps.Add(clientHelper.Install(csmaNodes2.Get(2)));
         clientApps.Start(Seconds(3.0));
         clientApps.Stop(Seconds(15.0));
 

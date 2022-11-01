@@ -188,7 +188,7 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable pcap tracing.");
 
     //  TEST PCAP sui nodi n0, n5, n7
-        // TODO n0
+        pointToPoint.EnablePcap("task1-0-n0.pcap", star.GetHub()->GetDevice(0), true, true);
         csma1.EnablePcap("task1-0-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-0-n7.pcap",p2pDevices.Get(1),true,true);
 
@@ -252,7 +252,7 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable pcap tracing.");
 
     //  TEST PCAP sui nodi n0, n5, n7
-        // TODO n0
+        pointToPoint.EnablePcap("task1-1-n0.pcap", star.GetHub()->GetDevice(0), true, true);
         csma1.EnablePcap("task1-1-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-1-n7.pcap",p2pDevices.Get(1),true,true);
 
@@ -338,7 +338,7 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable pcap tracing.");
 
     //  TEST PCAP sui nodi n0, n5, n7
-        // TODO n0
+        pointToPoint.EnablePcap("task1-2-n0.pcap", star.GetHub()->GetDevice(0), true, true);
         csma1.EnablePcap("task1-2-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-2-n7.pcap",p2pDevices.Get(1),true,true);
 

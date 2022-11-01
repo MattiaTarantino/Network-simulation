@@ -164,12 +164,10 @@ int main(int argc, char* argv[]){
         ApplicationContainer clientApps = clientHelper.Install(csmaNodes2.Get(2));
         AddressValue remoteAddress(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port));
         clientHelper.SetAttribute("Remote", remoteAddress);
-       // clientApps.Add(clientHelper.Install(csmaNodes2.Get(2)));
         clientApps.Start(Seconds(3.0));
         clientApps.Stop(Seconds(15.0));
 
         /* PROVA UDP
-
         UdpEchoServerHelper echoServer(9);
 
         ApplicationContainer serverApps = echoServer.Install(star.GetSpokeNode(0));
@@ -188,30 +186,18 @@ int main(int argc, char* argv[]){
 
         //  Cattura i pacchetti e crea un file .pcap
         NS_LOG_INFO("Enable pcap tracing.");
-        //pointToPoint1.EnablePcap("task1-0-0.pcap",star.GetHub(),true);
 
-        // TEST PCAP client server
-        /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
-        pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);
+    //  TEST PCAP sui nodi n0, n5, n7
+        // TODO n0
+        csma1.EnablePcap("task1-0",csmaDevices1.Get(1),true);
+        pointToPoint.EnablePcap("task1-0",p2pDevices.Get(1),true);
 
-        csma1.EnablePcapAll("csma1");
-        pointToPoint.EnablePcapAll("pointToPoint_star");
-        csma2.EnablePcapAll("csma2");*/
-
-        pointToPoint.EnablePcapAll("pointToPoint");
-        csma1.EnablePcap("csma1", csmaDevices1.Get(1), true);
-        csma2.EnablePcap("csma2", csmaDevices2.Get(1), true);
-        csma2.EnablePcap("csma2", csmaDevices2.Get(2), true);
-
-        /*  ASCII Tracing    
+    //  ASCII Tracing client server  
         AsciiTraceHelper ascii;
-        //pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
-        //csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(3));
+        
+        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));          TODO n1
+        csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(2));
 
-        pointToPoint_6_7.EnableAsciiAll("pointToPoint_6_7");
-        csma1.EnableAsciiAll("csma1");
-        pointToPoint_star.EnableAsciiAll("pointToPoint_star");
-        csma2.EnableAsciiAll("csma2");*/
     }
 
 //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

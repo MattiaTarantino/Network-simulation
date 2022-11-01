@@ -269,8 +269,9 @@ int main(int argc, char* argv[]){
         /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
         pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
 
+      //  pointToPoint.EnablePcapAll("pointToPoint");
         csma1.EnablePcapAll("csma1");
-        pointToPoint.EnablePcapAll("pointToPoint_star");
+        pointToPoint.EnablePcapAll("pointToPoint");
         csma2.EnablePcapAll("csma2");
 
         /*  ASCII Tracing    
@@ -307,7 +308,7 @@ int main(int argc, char* argv[]){
 
         //echoClient.SetFill(clientApps.Get(0),"5823635");
 
-        pointToPoint.EnablePcapAll("pointToPoint_star");
+        pointToPoint.EnablePcapAll("pointToPoint");
         csma1.EnablePcap("csma1", csmaDevices1.Get(1), true);
         csma2.EnablePcap("csma2", csmaDevices2.Get(1), true);
         csma2.EnablePcap("csma2", csmaDevices2.Get(2), true);

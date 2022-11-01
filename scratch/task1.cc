@@ -167,20 +167,6 @@ int main(int argc, char* argv[]){
         clientApps.Start(Seconds(3.0));
         clientApps.Stop(Seconds(15.0));
 
-    /*  PROVA UDP
-        UdpEchoServerHelper echoServer(9);
-
-        ApplicationContainer serverApps = echoServer.Install(star.GetSpokeNode(0));
-        serverApps.Start(Seconds(1.0));
-        serverApps.Stop(Seconds(20.0));
-
-        UdpEchoClientHelper echoClient(star.GetSpokeIpv4Address(0), 9);
-        echoClient.SetAttribute("PacketSize", UintegerValue(1500));
-
-        ApplicationContainer clientApps = echoClient.Install(csmaNodes2.Get(2));
-        clientApps.Start(Seconds(3.0));
-        clientApps.Stop(Seconds(15.0));*/
-
         NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
@@ -192,9 +178,9 @@ int main(int argc, char* argv[]){
         csma1.EnablePcap("task1-0-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-0-n7.pcap",p2pDevices.Get(1),true,true);
 
-    //  ASCII Tracing client server  
+    //  ASCII Tracing server n1 client n9  
         AsciiTraceHelper ascii;
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-0-n1.tr"),star.GetSpokeNode(0));       //TODO n1
+        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-0-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
         csma2.EnableAscii(ascii.CreateFileStream("task1-0-n9.tr"),csmaDevices2.Get(2));
     }
 
@@ -256,12 +242,12 @@ int main(int argc, char* argv[]){
         csma1.EnablePcap("task1-1-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-1-n7.pcap",p2pDevices.Get(1),true,true);
 
-    //  ASCII Tracing    
+    //  ASCII Tracing su server n1 n2 e client n8 n9   
         AsciiTraceHelper ascii;
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n1.tr"),star.GetSpokeNode(0));       TODO n1
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n2.tr"),star.GetSpokeNode(1));       TODO n2
-        csma2.EnableAscii(ascii.CreateFileStream("task1-1-n9.tr"),csmaDevices2.Get(2));
+        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
+        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n2.tr"),star.GetSpokeNode(1)->GetDevice(0));     
         csma2.EnableAscii(ascii.CreateFileStream("task1-1-n8.tr"),csmaDevices2.Get(1));
+        csma2.EnableAscii(ascii.CreateFileStream("task1-1-n9.tr"),csmaDevices2.Get(2));
 
     }
     
@@ -342,13 +328,13 @@ int main(int argc, char* argv[]){
         csma1.EnablePcap("task1-2-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-2-n7.pcap",p2pDevices.Get(1),true,true);
 
-    //  ASCII Tracing    
+    //  ASCII Tracing su server n1 n2 n3 e client n8 n9
         AsciiTraceHelper ascii;
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n1.tr"),star.GetSpokeNode(0));       TODO n1
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n2.tr"),star.GetSpokeNode(1));       TODO n2
-        //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n3.tr"),star.GetSpokeNode(2));       TODO n3
-        csma2.EnableAscii(ascii.CreateFileStream("task1-2-n9.tr"),csmaDevices2.Get(2));
+        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
+        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n2.tr"),star.GetSpokeNode(1)->GetDevice(0));     
+        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n3.tr"),star.GetSpokeNode(2)->GetDevice(0));       
         csma2.EnableAscii(ascii.CreateFileStream("task1-2-n8.tr"),csmaDevices2.Get(1));
+        csma2.EnableAscii(ascii.CreateFileStream("task1-2-n9.tr"),csmaDevices2.Get(2));
     
     }
 

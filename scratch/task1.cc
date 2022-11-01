@@ -285,6 +285,28 @@ int main(int argc, char* argv[]){
         clientApps.Start(Seconds(3.0));
         clientApps.Stop(Seconds(15.0));
 
+        // TCP Sink su n1, porta 2600
+        uint16_t port3 = 2600;
+        Address sinkLocalAddress3(InetSocketAddress(Ipv4Address::GetAny(), port3));
+        PacketSinkHelper sinkHelper3("ns3::TcpSocketFactory", sinkLocalAddress3);
+        ApplicationContainer sinkApp3 = sinkHelper3.Install(star.GetSpokeNode(0));
+        sinkApp3.Start(Seconds(1.0));
+        sinkApp3.Stop(Seconds(20.0));
+
+        // TCP OnOff Client n9
+        OnOffHelper clientHelper3("ns3::TcpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(0), port3));
+        clientHelper3.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+        clientHelper3.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+        uint32_t packetSize3 = 3000;
+        clientHelper3.SetAttribute("PacketSize", UintegerValue(packetSize3));
+
+        // Impostazione dell' OnOff sul nodo n9
+        ApplicationContainer clientApps3 = clientHelper3.Install(csmaNodes2.Get(2));
+        AddressValue remoteAddress3(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port3));
+        clientHelper3.SetAttribute("Remote", remoteAddress3);
+        clientApps3.Start(Seconds(3.0));
+        clientApps3.Stop(Seconds(9.0));
+
         //echoClient.SetFill(clientApps.Get(0),"5823635");
 
         NS_LOG_INFO("Enable static global routing.");

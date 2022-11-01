@@ -189,13 +189,13 @@ int main(int argc, char* argv[]){
 
     //  TEST PCAP sui nodi n0, n5, n7
         // TODO n0
-        csma1.EnablePcap("task1-0-5.pcap",csmaDevices1.Get(1),true,true);
-        pointToPoint.EnablePcap("task1-0-7.pcap",p2pDevices.Get(1),true,true);
+        csma1.EnablePcap("task1-0-n5.pcap",csmaDevices1.Get(1),true,true);
+        pointToPoint.EnablePcap("task1-0-n7.pcap",p2pDevices.Get(1),true,true);
 
     //  ASCII Tracing client server  
         AsciiTraceHelper ascii;
         //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));       TODO n1
-        csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(2));
+        csma2.EnableAscii(ascii.CreateFileStream("task1-0-n9.tr"),csmaDevices2.Get(2));
     }
 
 //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -253,15 +253,15 @@ int main(int argc, char* argv[]){
 
     //  TEST PCAP sui nodi n0, n5, n7
         // TODO n0
-        csma1.EnablePcap("task1-1-5.pcap",csmaDevices1.Get(1),true,true);
-        pointToPoint.EnablePcap("task1-1-7.pcap",p2pDevices.Get(1),true,true);
+        csma1.EnablePcap("task1-1-n5.pcap",csmaDevices1.Get(1),true,true);
+        pointToPoint.EnablePcap("task1-1-n7.pcap",p2pDevices.Get(1),true,true);
 
     //  ASCII Tracing    
         AsciiTraceHelper ascii;
         //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-1.tr"),star.GetSpokeNode(0));       TODO n1
         //pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-2.tr"),star.GetSpokeNode(1));       TODO n2
-        csma2.EnableAscii(ascii.CreateFileStream("task1-1-9.tr"),csmaDevices2.Get(2));
-        csma2.EnableAscii(ascii.CreateFileStream("task1-1-8.tr"),csmaDevices2.Get(1));
+        csma2.EnableAscii(ascii.CreateFileStream("task1-1-n9.tr"),csmaDevices2.Get(2));
+        csma2.EnableAscii(ascii.CreateFileStream("task1-1-n8.tr"),csmaDevices2.Get(1));
 
     }
     
@@ -317,8 +317,8 @@ int main(int argc, char* argv[]){
 
     //  TEST PCAP sui nodi n0, n5, n7
         // TODO n0
-        csma1.EnablePcap("task1-2-5.pcap",csmaDevices1.Get(1),true,true);
-        pointToPoint.EnablePcap("task1-2-7.pcap",p2pDevices.Get(1),true,true);
+        csma1.EnablePcap("task1-2-n5.pcap",csmaDevices1.Get(1),true,true);
+        pointToPoint.EnablePcap("task1-2-n7.pcap",p2pDevices.Get(1),true,true);
     
     }
 

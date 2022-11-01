@@ -59,14 +59,10 @@ int main(int argc, char* argv[]){
 
 //  Creando i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella e n6 dato che verrà creato con una connessione point to point
     uint32_t nCsma1 = 1;
-
-//  ??????????
     nCsma1 = nCsma1 == 0 ? 1 : nCsma1;
 
 //  Creando i nodi che compongono la seconda LAN, escluso n7 essendo già considerato nella connessione point-to-point
     uint32_t nCsma2 = 2;
-
-//  ??????????
     nCsma2 = nCsma2 == 0 ? 1 : nCsma2;
 
 //  Configurando i parametri della stella n0-n{1,2,3,4} e della connessione point-to-point tra n6 e n7
@@ -145,7 +141,7 @@ int main(int argc, char* argv[]){
     if ( configuration == 0 ) {
         NS_LOG_INFO("Create applications.");
 
-        // Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
+    //  Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
         uint16_t port = 2600;
         Address sinkLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
         PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", sinkLocalAddress);
@@ -153,16 +149,16 @@ int main(int argc, char* argv[]){
         sinkApp.Start(Seconds(1.0));
         sinkApp.Stop(Seconds(20.0));
 
-        // Creazione di un' applicazioni OnOff per mandare TCP al nodo n1
+    //  Creazione di un' applicazioni OnOff per mandare TCP al nodo n1
         OnOffHelper clientHelper("ns3::TcpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(0), port));
         clientHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize = 1500;
         clientHelper.SetAttribute("PacketSize", UintegerValue(packetSize));
 
-        // Impostazione dell' OnOff sul nodo n9
+    //  Impostazione dell' OnOff sul nodo n9
         ApplicationContainer clientApps = clientHelper.Install(csmaNodes2.Get(2));
-        AddressValue remoteAddress(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port));
+        AddressValue remoteAddress(InetSocketAddress(csmaInterfaces2.GetAddress(2), port));
         clientHelper.SetAttribute("Remote", remoteAddress);
         clientApps.Start(Seconds(3.0));
         clientApps.Stop(Seconds(15.0));
@@ -226,7 +222,7 @@ int main(int argc, char* argv[]){
 
     //  Impostazione dell' OnOff sul nodo n8
         ApplicationContainer clientApps2 = clientHelper2.Install(csmaNodes2.Get(1)) ;
-        AddressValue remoteAddress2(InetSocketAddress(csmaInterfaces2.GetAddress(1) , port2));
+        AddressValue remoteAddress2(InetSocketAddress(csmaInterfaces2.GetAddress(1), port2));
         clientHelper2.SetAttribute("Remote", remoteAddress2);
         clientApps2.Start(Seconds(2.0));
         clientApps2.Stop(Seconds(9.0));
@@ -248,18 +244,19 @@ int main(int argc, char* argv[]){
         pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n2.tr"),star.GetSpokeNode(1)->GetDevice(0));     
         csma2.EnableAscii(ascii.CreateFileStream("task1-1-n8.tr"),csmaDevices2.Get(1));
         csma2.EnableAscii(ascii.CreateFileStream("task1-1-n9.tr"),csmaDevices2.Get(2));
-
     }
     
 //  Inizio configurazione 2 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if ( configuration == 2 ) {
 
+    //  UDP Echo Server su n2, porta 63   
         UdpEchoServerHelper echoServer(63);
 
         ApplicationContainer serverApps = echoServer.Install(star.GetSpokeNode(1));
         serverApps.Start(Seconds(1.0));
         serverApps.Stop(Seconds(20.0));
 
+    //  UDP Echo Client su n8
         uint32_t maxPacketCount = 5;
         Time interPacketInterval = Seconds(2.);
         UdpEchoClientHelper echoClient(star.GetSpokeIpv4Address(1), 63);
@@ -271,7 +268,7 @@ int main(int argc, char* argv[]){
         clientApps.Start(Seconds(3.0));
         clientApps.Stop(Seconds(15.0));
 
-        // TCP Sink su n1, porta 2600
+    //  TCP Sink su n1, porta 2600
         uint16_t port3 = 2600;
         Address sinkLocalAddress3(InetSocketAddress(Ipv4Address::GetAny(), port3));
         PacketSinkHelper sinkHelper3("ns3::TcpSocketFactory", sinkLocalAddress3);
@@ -279,21 +276,21 @@ int main(int argc, char* argv[]){
         sinkApp3.Start(Seconds(1.0));
         sinkApp3.Stop(Seconds(20.0));
 
-        // TCP OnOff Client n9
+    //  TCP OnOff Client n9
         OnOffHelper clientHelper3("ns3::TcpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(0), port3));
         clientHelper3.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper3.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize3 = 3000;
         clientHelper3.SetAttribute("PacketSize", UintegerValue(packetSize3));
 
-        // Impostazione dell' OnOff sul nodo n9
+    //  Impostazione dell' OnOff sul nodo n9
         ApplicationContainer clientApps3 = clientHelper3.Install(csmaNodes2.Get(2));
         AddressValue remoteAddress3(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port3));
         clientHelper3.SetAttribute("Remote", remoteAddress3);
         clientApps3.Start(Seconds(3.0));
         clientApps3.Stop(Seconds(9.0));
 
-        // UDP Sink su n3, porta 2500
+    //  UDP Sink su n3, porta 2500
         uint16_t port4 = 2500;
         Address sinkLocalAddress4(InetSocketAddress(Ipv4Address::GetAny(), port4));
         PacketSinkHelper sinkHelper4("ns3::UdpSocketFactory", sinkLocalAddress4);
@@ -301,14 +298,14 @@ int main(int argc, char* argv[]){
         sinkApp4.Start(Seconds(1.0));
         sinkApp4.Stop(Seconds(20.0));
 
-        // UDP OnOff Client n8
+    //  UDP OnOff Client n8
         OnOffHelper clientHelper4("ns3::UdpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(2), port4));
         clientHelper4.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper4.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize4 = 3000;
         clientHelper4.SetAttribute("PacketSize", UintegerValue(packetSize4));
 
-        // Impostazione dell' OnOff sul nodo n8
+    //  Impostazione dell' OnOff sul nodo n8
         ApplicationContainer clientApps4 = clientHelper4.Install(csmaNodes2.Get(1));
         AddressValue remoteAddress4(InetSocketAddress(csmaInterfaces2.GetAddress(1) , port4));
         clientHelper4.SetAttribute("Remote", remoteAddress4);
@@ -335,7 +332,6 @@ int main(int argc, char* argv[]){
         pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n3.tr"),star.GetSpokeNode(2)->GetDevice(0));       
         csma2.EnableAscii(ascii.CreateFileStream("task1-2-n8.tr"),csmaDevices2.Get(1));
         csma2.EnableAscii(ascii.CreateFileStream("task1-2-n9.tr"),csmaDevices2.Get(2));
-    
     }
 
 //  Printando indirizzi IP dei nodi

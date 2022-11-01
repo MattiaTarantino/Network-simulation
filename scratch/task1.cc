@@ -192,11 +192,16 @@ int main(int argc, char* argv[]){
 
         // TEST PCAP client server
         /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
-        pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
+        pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);
 
         csma1.EnablePcapAll("csma1");
         pointToPoint.EnablePcapAll("pointToPoint_star");
-        csma2.EnablePcapAll("csma2");
+        csma2.EnablePcapAll("csma2");*/
+
+        pointToPoint.EnablePcapAll("pointToPoint");
+        csma1.EnablePcap("csma1", csmaDevices1.Get(1), true);
+        csma2.EnablePcap("csma2", csmaDevices2.Get(1), true);
+        csma2.EnablePcap("csma2", csmaDevices2.Get(2), true);
 
         /*  ASCII Tracing    
         AsciiTraceHelper ascii;
@@ -269,10 +274,15 @@ int main(int argc, char* argv[]){
         /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
         pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
 
-      //  pointToPoint.EnablePcapAll("pointToPoint");                               // Da rivedere
+      /*  pointToPoint.EnablePcapAll("pointToPoint");                               // Da rivedere
         csma1.EnablePcapAll("csma1");
         pointToPoint.EnablePcapAll("pointToPoint");
-        csma2.EnablePcapAll("csma2");
+        csma2.EnablePcapAll("csma2");*/
+
+        pointToPoint.EnablePcapAll("pointToPoint");
+        csma1.EnablePcap("csma1", csmaDevices1.Get(1), true);
+        csma2.EnablePcap("csma2", csmaDevices2.Get(1), true);
+        csma2.EnablePcap("csma2", csmaDevices2.Get(2), true);
 
         /*  ASCII Tracing    
         AsciiTraceHelper ascii;

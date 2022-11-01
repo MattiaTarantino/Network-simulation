@@ -101,15 +101,17 @@ int main(int argc, char* argv[]){
     NodeContainer csmaNodes2;
     csmaNodes2.Add(p2pNodes.Get(1));
     csmaNodes2.Create(nCsma2);
-
+/*
 //  Configurando i parametri della connessione point-to-point tra n6 e n7
     PointToPointHelper pointToPoint_6_7;
     pointToPoint_6_7.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
-    pointToPoint_6_7.SetChannelAttribute("Delay", StringValue("10us"));
+    pointToPoint_6_7.SetChannelAttribute("Delay", StringValue("10us"));     
 
 //  Installando un point-to-point net device sui nodi n6 e n7 e un canale point-to-point tra essi
     NetDeviceContainer p2pDevices;
-    p2pDevices = pointToPoint_6_7.Install(p2pNodes);
+    p2pDevices = pointToPoint_6_7.Install(p2pNodes);          */
+    NetDeviceContainer p2pDevices;
+    p2pDevices = pointToPoint_star.Install(p2pNodes);  
 
 //  Configurando i parametri della seconda LAN
     CsmaHelper csma2;
@@ -197,7 +199,7 @@ int main(int argc, char* argv[]){
         /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
         pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
 
-        pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
+   //     pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
         csma1.EnablePcapAll("csma1");
         pointToPoint_star.EnablePcapAll("pointToPoint_star");
         csma2.EnablePcapAll("csma2");
@@ -273,7 +275,7 @@ int main(int argc, char* argv[]){
         /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
         pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
 
-        pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
+      //  pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
         csma1.EnablePcapAll("csma1");
         pointToPoint_star.EnablePcapAll("pointToPoint_star");
         csma2.EnablePcapAll("csma2");
@@ -314,7 +316,7 @@ int main(int argc, char* argv[]){
 
         pointToPoint_star.EnablePcapAll("pointToPoint_star");
         csma1.EnablePcap("csma1", csmaDevices1.Get(1), true);
-        pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
+    //    pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
         csma2.EnablePcap("csma2", csmaDevices2.Get(1), true);
         csma2.EnablePcap("csma2", csmaDevices2.Get(2), true);
       //  csma1.EnablePcapAll("csma1");

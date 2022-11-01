@@ -312,10 +312,13 @@ int main(int argc, char* argv[]){
 
         //echoClient.SetFill(clientApps.Get(0),"5823635");
 
-        pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
-        csma1.EnablePcapAll("csma1");
         pointToPoint_star.EnablePcapAll("pointToPoint_star");
-        csma2.EnablePcapAll("csma2");
+        csma1.EnablePcap("csma1", csmaDevices1.Get(1), true);
+        pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
+        csma2.EnablePcap("csma2", csmaDevices2.Get(1), true);
+        csma2.EnablePcap("csma2", csmaDevices2.Get(2), true);
+      //  csma1.EnablePcapAll("csma1");
+     //   csma2.EnablePcapAll("csma2");
 
         NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();

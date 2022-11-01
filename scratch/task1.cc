@@ -269,7 +269,7 @@ int main(int argc, char* argv[]){
         /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
         pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
 
-      //  pointToPoint.EnablePcapAll("pointToPoint");
+      //  pointToPoint.EnablePcapAll("pointToPoint");                               // Da rivedere
         csma1.EnablePcapAll("csma1");
         pointToPoint.EnablePcapAll("pointToPoint");
         csma2.EnablePcapAll("csma2");

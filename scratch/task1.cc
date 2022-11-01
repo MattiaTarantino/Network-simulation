@@ -71,10 +71,10 @@ int main(int argc, char* argv[]){
 
 //  Creando la stella n0-n{1,2,3,4} e configuro i parametri
     NS_LOG_INFO("Build star topology.");
-    PointToPointHelper pointToPoint1;
-    pointToPoint1.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
-    pointToPoint1.SetChannelAttribute("Delay", StringValue("10us"));
-    PointToPointStarHelper star(nSpokes, pointToPoint1);
+    PointToPointHelper pointToPoint_star;
+    pointToPoint_star.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
+    pointToPoint_star.SetChannelAttribute("Delay", StringValue("10us"));
+    PointToPointStarHelper star(nSpokes, pointToPoint_star);
 
 //  Creando la prima LAN partendo da n4 aggiungendo anche n6 facente parte della connessione point-to-point 
     NodeContainer csmaNodes1;
@@ -103,13 +103,13 @@ int main(int argc, char* argv[]){
     csmaNodes2.Create(nCsma2);
 
 //  Configurando i parametri della connessione point-to-point tra n6 e n7
-    PointToPointHelper pointToPoint0;
-    pointToPoint0.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
-    pointToPoint0.SetChannelAttribute("Delay", StringValue("10us"));
+    PointToPointHelper pointToPoint_6_7;
+    pointToPoint_6_7.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
+    pointToPoint_6_7.SetChannelAttribute("Delay", StringValue("10us"));
 
 //  Installando un point-to-point net device sui nodi n6 e n7 e un canale point-to-point tra essi
     NetDeviceContainer p2pDevices;
-    p2pDevices = pointToPoint0.Install(p2pNodes);
+    p2pDevices = pointToPoint_6_7.Install(p2pNodes);
 
 //  Configurando i parametri della seconda LAN
     CsmaHelper csma2;
@@ -197,20 +197,20 @@ int main(int argc, char* argv[]){
         /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
         pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
 
-        pointToPoint0.EnablePcapAll("p2p0");
+        pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
         csma1.EnablePcapAll("csma1");
-        pointToPoint1.EnablePcapAll("p2p1");
+        pointToPoint_star.EnablePcapAll("pointToPoint_star");
         csma2.EnablePcapAll("csma2");
 
-        //  ASCII Tracing    
+        /*  ASCII Tracing    
         AsciiTraceHelper ascii;
         //pointToPoint1.EnableAscii(ascii.CreateFileStream("task1-0-1.tr"),star.GetSpokeNode(0));
         //csma2.EnableAscii(ascii.CreateFileStream("task1-0-9.tr"),csmaDevices2.Get(3));
 
-        pointToPoint0.EnableAsciiAll("p2p0");
+        pointToPoint_6_7.EnableAsciiAll("pointToPoint_6_7");
         csma1.EnableAsciiAll("csma1");
-        pointToPoint1.EnableAsciiAll("p2p1");
-        csma2.EnableAsciiAll("csma2");
+        pointToPoint_star.EnableAsciiAll("pointToPoint_star");
+        csma2.EnableAsciiAll("csma2");*/
     }
 
 //  Inizio configurazione 1 :   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,9 +273,9 @@ int main(int argc, char* argv[]){
         /*csma1.EnablePcap("task1-0-5",csmaDevices1.Get(2),true);
         pointToPoint0.EnablePcap("task1-0-7",p2pDevices.Get(1),true);*/
 
-        pointToPoint0.EnablePcapAll("p2p0");
+        pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
         csma1.EnablePcapAll("csma1");
-        pointToPoint1.EnablePcapAll("p2p1");
+        pointToPoint_star.EnablePcapAll("pointToPoint_star");
         csma2.EnablePcapAll("csma2");
 
         /*  ASCII Tracing    
@@ -312,9 +312,9 @@ int main(int argc, char* argv[]){
 
         //echoClient.SetFill(clientApps.Get(0),"5823635");
 
-        pointToPoint0.EnablePcapAll("p2p0");
+        pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
         csma1.EnablePcapAll("csma1");
-        pointToPoint1.EnablePcapAll("p2p1");
+        pointToPoint_star.EnablePcapAll("pointToPoint_star");
         csma2.EnablePcapAll("csma2");
 
         NS_LOG_INFO("Enable static global routing.");

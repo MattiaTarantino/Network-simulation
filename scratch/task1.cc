@@ -40,7 +40,7 @@
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE("TaskScript");
+NS_LOG_COMPONENT_DEFINE("Task_1_Team_48");
 
 int main(int argc, char* argv[]){
 

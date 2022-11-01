@@ -71,10 +71,10 @@ int main(int argc, char* argv[]){
 
 //  Creando la stella n0-n{1,2,3,4} e configuro i parametri
     NS_LOG_INFO("Build star topology.");
-    PointToPointHelper pointToPoint_star;
-    pointToPoint_star.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
-    pointToPoint_star.SetChannelAttribute("Delay", StringValue("10us"));
-    PointToPointStarHelper star(nSpokes, pointToPoint_star);
+    PointToPointHelper pointToPoint;
+    pointToPoint.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
+    pointToPoint.SetChannelAttribute("Delay", StringValue("10us"));
+    PointToPointStarHelper star(nSpokes, pointToPoint);
 
 //  Creando la prima LAN partendo da n4 aggiungendo anche n6 facente parte della connessione point-to-point 
     NodeContainer csmaNodes1;
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]){
     NetDeviceContainer p2pDevices;
     p2pDevices = pointToPoint_6_7.Install(p2pNodes);          */
     NetDeviceContainer p2pDevices;
-    p2pDevices = pointToPoint_star.Install(p2pNodes);  
+    p2pDevices = pointToPoint.Install(p2pNodes);  
 
 //  Configurando i parametri della seconda LAN
     CsmaHelper csma2;
@@ -201,7 +201,7 @@ int main(int argc, char* argv[]){
 
    //     pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
         csma1.EnablePcapAll("csma1");
-        pointToPoint_star.EnablePcapAll("pointToPoint_star");
+        pointToPoint.EnablePcapAll("pointToPoint_star");
         csma2.EnablePcapAll("csma2");
 
         /*  ASCII Tracing    
@@ -277,7 +277,7 @@ int main(int argc, char* argv[]){
 
       //  pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
         csma1.EnablePcapAll("csma1");
-        pointToPoint_star.EnablePcapAll("pointToPoint_star");
+        pointToPoint.EnablePcapAll("pointToPoint_star");
         csma2.EnablePcapAll("csma2");
 
         /*  ASCII Tracing    
@@ -314,7 +314,7 @@ int main(int argc, char* argv[]){
 
         //echoClient.SetFill(clientApps.Get(0),"5823635");
 
-        pointToPoint_star.EnablePcapAll("pointToPoint_star");
+        pointToPoint.EnablePcapAll("pointToPoint_star");
         csma1.EnablePcap("csma1", csmaDevices1.Get(1), true);
     //    pointToPoint_6_7.EnablePcapAll("pointToPoint_6_7");
         csma2.EnablePcap("csma2", csmaDevices2.Get(1), true);

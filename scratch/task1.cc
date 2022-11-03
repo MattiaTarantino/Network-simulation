@@ -311,7 +311,8 @@ int main(int argc, char* argv[]){
         clientHelper4.SetAttribute("Remote", remoteAddress4);
         clientApps4.Start(Seconds(5.0));
         clientApps4.Stop(Seconds(15.0));
-
+    
+    //  Setting the message in the UDP packets
         std::string matricola = " Somma delle matricole : 5823635 ";
         int size = 2559 - matricola.size();
         for (int i = 0; i < size; i++){

@@ -48,7 +48,9 @@ int main(int argc, char* argv[]){
     CommandLine cmd;
     int configuration = 1;
     cmd.AddValue("configuration", "numero configurazione", configuration);
-    cmd.Parse (argc, argv);                    
+    cmd.Parse (argc, argv);  
+    LogComponentEnable("OnOffApplication", LOG_LEVEL_INFO);                  
+    LogComponentEnable("PacketSink", LOG_LEVEL_INFO);
 
     Time::SetResolution(Time::NS);                                                 
     LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);

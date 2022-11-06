@@ -49,12 +49,12 @@ int main(int argc, char* argv[]){
     int configuration = 1;
     cmd.AddValue("configuration", "numero configurazione", configuration);
     cmd.Parse (argc, argv);  
-    LogComponentEnable("OnOffApplication", LOG_LEVEL_INFO);                  
-    LogComponentEnable("PacketSink", LOG_LEVEL_INFO);
 
     Time::SetResolution(Time::NS);                                                 
     LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
     LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
+    LogComponentEnable("OnOffApplication", LOG_LEVEL_INFO);                  
+    LogComponentEnable("PacketSink", LOG_LEVEL_INFO);
 
 //  Creando i nodi che compongono la stella, escluso il nodo centrale n0
     uint32_t nSpokes = 4;
@@ -377,5 +377,3 @@ int main(int argc, char* argv[]){
 
     return 0;
 }
-
-//ip.id == 0x0007 && ip.src == 192.118.2.3 && tcp.srcport == 49153 && ip.dst == 10.0.1.2 && tcp.dstport == 2600

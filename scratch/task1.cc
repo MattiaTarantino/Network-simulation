@@ -380,8 +380,8 @@ int main(int argc, char* argv[]){
 
 /*
 
-At time +3s client sent 2560 bytes to 10.0.1.18 port 63
-At time +3.00885s server received 2560 bytes from 192.118.2.2 port 49153
+At time +8.36001s on-off application sent 3000 bytes to 10.0.1.34 port 2500 total Tx 210000 bytes
+At time +8.36193s packet sink received 3000 bytes from 192.118.2.2 port 49154 total Rx 210000 byte
 
 
 */

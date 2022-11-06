@@ -379,15 +379,10 @@ int main(int argc, char* argv[]){
 }
 
 /*
-At time +5.096s on-off application sent 3000 bytes to 10.0.1.34 port 2500 total Tx 6000 bytes
-At time +5.0979s packet sink received 3000 bytes from 192.118.2.2 port 49154 total Rx 6000 bytes
-At time +5.13201s on-off application sent 3000 bytes to 10.0.1.2 port 2600 total Tx 132000 bytes
-At time +5.1326s packet sink received 536 bytes from 192.118.2.3 port 49153 total Rx 129536 bytes
-At time +5.13283s packet sink received 536 bytes from 192.118.2.3 port 49153 total Rx 130072 bytes
-At time +5.13315s packet sink received 536 bytes from 192.118.2.3 port 49153 total Rx 130608 bytes
-At time +5.13335s packet sink received 536 bytes from 192.118.2.3 port 49153 total Rx 131144 bytes
-At time +5.13356s packet sink received 536 bytes from 192.118.2.3 port 49153 total Rx 131680 bytes
-At time +5.13365s packet sink received 320 bytes from 192.118.2.3 port 49153 total Rx 132000 bytes
+
+At time +3s client sent 2560 bytes to 10.0.1.18 port 63
+At time +3.00885s server received 2560 bytes from 192.118.2.2 port 49153
+
 
 */
 

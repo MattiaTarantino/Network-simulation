@@ -46,7 +46,7 @@
 //
 // When you are done, you will notice two pcap trace files in your directory.
 // If you have tcpdump installed, you can try this:
-//afàijkmdl
+//
 // tcpdump -r wifi-simple-adhoc-0-0.pcap -nn -tt
 //
 #include "ns3/command-line.h"

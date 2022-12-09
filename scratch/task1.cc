@@ -177,12 +177,12 @@ int main(int argc, char* argv[])
         anim.EnablePacketMetadata();
 
         /*   
-    anim.EnableIpv4RouteTracking("routingtable-wireless.xml",
+        anim.EnableIpv4RouteTracking("routingtable-wireless.xml",
                                  Seconds(0),
                                  Seconds(5),
-                                 Seconds(0.25));
+                                 Seconds(0.25));*/
         anim.EnableWifiMacCounters(Seconds(0), Seconds(10));
-        anim.EnableWifiPhyCounters(Seconds(0), Seconds(10));        */
+        anim.EnableWifiPhyCounters(Seconds(0), Seconds(10));
         Simulator::Stop(Seconds(10.0));
         Simulator::Run();
         Simulator::Destroy();
@@ -193,4 +193,4 @@ int main(int argc, char* argv[])
         Simulator::Destroy();
     }
     return 0;
-}       
+}

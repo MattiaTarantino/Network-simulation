@@ -120,24 +120,24 @@ int main(int argc, char* argv[])
     NS_LOG_INFO("Assign IP Addresses.");
     address.SetBase("192.168.1.0", "/24");
     Ipv4InterfaceContainer adHocInterface = address.Assign(adHocDevices);
-/*
-    UdpEchoServerHelper echoServer(9);
-
-    ApplicationContainer serverApps = echoServer.Install(csmaNodes.Get(nCsma));
+    
+    
+//  UDP Echo Server on n0, port 63 
+    UdpEchoServerHelper echoServer(63);
+    ApplicationContainer serverApps = echoServer.Install(wifiAdHocNodes.Get(0));
     serverApps.Start(Seconds(1.0));
     serverApps.Stop(Seconds(10.0));
 
-    UdpEchoClientHelper echoClient(csmaInterfaces.GetAddress(nCsma), 9);
+//  UDP Echo Client on n4
+    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(0), 63);
     echoClient.SetAttribute("MaxPackets", UintegerValue(1));
     echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));
-    echoClient.SetAttribute("PacketSize", UintegerValue(1024));
+    echoClient.SetAttribute("PacketSize", UintegerValue(512));
 
-    ApplicationContainer clientApps = echoClient.Install(wifiStaNodes.Get(nWifi - 1));
-    clientApps.Start(Seconds(2.0));
-    clientApps.Stop(Seconds(10.0));
+    ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(3));
+    clientApps.Start(Seconds(1.0));
+    clientApps.Stop(Seconds(2.0));
     
-    */
-
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
   /*  
     if (tracing)

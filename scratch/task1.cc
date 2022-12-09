@@ -105,21 +105,16 @@ int main(int argc, char* argv[])
                               "Bounds",
                               RectangleValue(Rectangle(-90, 90, -90, 90)));
     mobility.Install(wifiAdHocNodes);
-/*
-    mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
-    mobility.Install(wifiApNode);
 
     InternetStackHelper stack;
-    stack.Install(csmaNodes);
-    stack.Install(wifiApNode);
-    stack.Install(wifiStaNodes);
+    stack.Install(wifiAdHocNodes);
 
     Ipv4AddressHelper address;
 
-    address.SetBase("10.1.1.0", "255.255.255.0");
+    address.SetBase("192.168.1.0", "/24");
     Ipv4InterfaceContainer p2pInterfaces;
     p2pInterfaces = address.Assign(p2pDevices);
-
+/*
     address.SetBase("10.1.2.0", "255.255.255.0");
     Ipv4InterfaceContainer csmaInterfaces;
     csmaInterfaces = address.Assign(csmaDevices);

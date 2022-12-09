@@ -139,16 +139,7 @@ int main(int argc, char* argv[])
     */
 
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
-
- /*   
-    anim.EnableIpv4RouteTracking("routingtable-wireless.xml",
-                                 Seconds(0),
-                                 Seconds(5),
-                                 Seconds(0.25));         // Optional
-    anim.EnableWifiMacCounters(Seconds(0), Seconds(10)); // Optional
-    anim.EnableWifiPhyCounters(Seconds(0), Seconds(10)); // Optional
-
-    
+  /*  
     if (tracing)
     {
         phy.SetPcapDataLinkType(WifiPhyHelper::DLT_IEEE802_11_RADIO);
@@ -174,14 +165,19 @@ int main(int argc, char* argv[])
 
         // Enabling writing the packet metadata to the XML trace
         anim.EnablePacketMetadata();
+
+        /*   
+    anim.EnableIpv4RouteTracking("routingtable-wireless.xml",
+                                 Seconds(0),
+                                 Seconds(5),
+                                 Seconds(0.25));
         anim.EnableWifiMacCounters(Seconds(0), Seconds(10));
-        anim.EnableWifiPhyCounters(Seconds(0), Seconds(10));
+        anim.EnableWifiPhyCounters(Seconds(0), Seconds(10));        */
         Simulator::Stop(Seconds(10.0));
         Simulator::Run();
         Simulator::Destroy();
     }
-    else
-    {
+    else {
         Simulator::Stop(Seconds(10.0));
         Simulator::Run();
         Simulator::Destroy();

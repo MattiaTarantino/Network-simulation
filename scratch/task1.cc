@@ -136,7 +136,7 @@ int main(int argc, char* argv[])
 
     ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(3));
     clientApps.Start(Seconds(1.0));
-    clientApps.Stop(Seconds(2.0));
+    clientApps.Stop(Seconds(3.0));
     
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
   /*  

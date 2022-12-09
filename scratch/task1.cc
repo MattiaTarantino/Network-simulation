@@ -37,10 +37,10 @@
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE("ThirdScriptExample");
 
-int
-main(int argc, char* argv[])
+NS_LOG_COMPONENT_DEFINE("HW2_Task1_Team_48");
+
+int main(int argc, char* argv[])
 {
     bool verbose = true;
     uint32_t nCsma = 3;
@@ -54,6 +54,16 @@ main(int argc, char* argv[])
     cmd.AddValue("tracing", "Enable pcap tracing", tracing);
 
     cmd.Parse(argc, argv);
+
+    /*
+    
+    PASSARE DA LINEA DI COMANDO?
+
+    bool enableCtsRts = true;
+    UintegerValue ctsThreshold = (enableCtsRts? UintegerValue(100): UintegerValue(2346));
+    Config::SetDefault("ns3::WifiRemoteStationManager::RtsCtsThreshold", ctsThreshold);
+    
+    */
 
     // The underlying restriction of 18 is due to the grid position
     // allocator's configuration; the grid layout will exceed the

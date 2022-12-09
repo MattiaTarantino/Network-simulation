@@ -116,6 +116,16 @@ main(int argc, char* argv[])
     double interval = 1.0; // seconds
     bool verbose = false;
 
+    /*
+    
+    PASSARE DA LINEA DI COMANDO?
+
+    bool enableCtsRts = true;
+    UintegerValue ctsThreshold = (enableCtsRts? UintegerValue(100): UintegerValue(2346));
+    Config::SetDefault("ns3::WifiRemoteStationManager::RtsCtsThreshold", ctsThreshold);
+    
+    */
+
     CommandLine cmd(__FILE__);
     cmd.AddValue("phyMode", "Wifi Phy mode", phyMode);
     cmd.AddValue("rss", "received signal strength", rss);

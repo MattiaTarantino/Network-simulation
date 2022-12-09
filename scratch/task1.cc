@@ -48,6 +48,7 @@ int main(int argc, char* argv[])
     uint32_t nWifi = 5;
     bool tracing = false;
     bool useRtsCts = false;
+    bool useNetAnim = false;
 
     CommandLine cmd(__FILE__);
     cmd.AddValue("verbose", "Tell echo applications to log if true", verbose);
@@ -138,7 +139,7 @@ int main(int argc, char* argv[])
     */
 
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
-
+    /*
     // Simulator::Stop(Seconds(10.0));
 
     // Creating state parameter with default configuration off
@@ -157,7 +158,8 @@ int main(int argc, char* argv[])
     }
 
     // Enabling writing the packet metadata to the XML trace
-    anim.EnablePacketMetadata(); 
+    anim.EnablePacketMetadata();
+    */
  /*   
     anim.EnableIpv4RouteTracking("routingtable-wireless.xml",
                                  Seconds(0),
@@ -177,4 +179,38 @@ int main(int argc, char* argv[])
     Simulator::Run();
     Simulator::Destroy();
     return 0;   
+    
+    if(useNetAnim)
+    {
+        // Simulator::Stop(Seconds(10.0));
+
+        // Creating state parameter with default configuration off
+        std::string state = "off";
+
+        if (useRtsCts == true) {
+            state = "on";
+        }
+
+        AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");
+
+        for (uint32_t i = 0; i < wifiAdHocNodes.GetN(); ++i)
+        {
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(i), "ADHOC"); 
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(i), 255, 0, 0);
+        }
+
+        // Enabling writing the packet metadata to the XML trace
+        anim.EnablePacketMetadata();
+        anim.EnableWifiMacCounters(Seconds(0), Seconds(10));
+        anim.EnableWifiPhyCounters(Seconds(0), Seconds(10));
+        Simulator::Stop(Seconds(10.0));
+        Simulator::Run();
+        Simulator::Destroy();
+    }
+    else
+    {
+        Simulator::Stop(Seconds(10.0));
+        Simulator::Run();
+        Simulator::Destroy();
+    }
 }       

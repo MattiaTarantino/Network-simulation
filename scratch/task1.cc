@@ -87,7 +87,6 @@ int main(int argc, char* argv[])
     NetDeviceContainer adHocDevices = wifi.Install(phy, mac, wifiAdHocNodes);
 
     MobilityHelper mobility;
-/*
     mobility.SetPositionAllocator("ns3::GridPositionAllocator",
                                   "MinX",
                                   DoubleValue(0.0),
@@ -104,9 +103,9 @@ int main(int argc, char* argv[])
 
     mobility.SetMobilityModel("ns3::RandomWalk2dMobilityModel",
                               "Bounds",
-                              RectangleValue(Rectangle(-50, 50, -50, 50)));
-    mobility.Install(wifiStaNodes);
-
+                              RectangleValue(Rectangle(-90, 90, -90, 90)));
+    mobility.Install(wifiAdHocNodes);
+/*
     mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
     mobility.Install(wifiApNode);
 

@@ -79,15 +79,14 @@ int main(int argc, char* argv[])
     YansWifiPhyHelper phy;
     phy.SetChannel(channel.Create());
 
-    WifiMacHelper mac;
-    Ssid ssid = Ssid("ns-3-ssid");
-
+    // Setting wifi and AARF algorithm
     WifiHelper wifi;
-    wifi.SetRemoteStationManager("ns3::AarfWifiManager");   // Setting AARF algorithm
+    wifi.SetRemoteStationManager("ns3::AarfWifiManager");
 
-    NetDeviceContainer adHocDevices;
+    // Add a mac and set it to adhoc mode
+    WifiMacHelper mac;
     mac.SetType("ns3::AdhocWifiMac");
-    adHocDevices = wifi.Install(phy, mac, wifiAdHocNodes);
+    NetDeviceContainer adHocDevices = wifi.Install(phy, mac, wifiAdHocNodes);
 
     MobilityHelper mobility;
 /*

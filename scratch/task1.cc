@@ -43,6 +43,7 @@ NS_LOG_COMPONENT_DEFINE("HW2_Task1_Team_48");
 int main(int argc, char* argv[])
 {
     bool verbose = true;
+    // Setting the number of wifi nodes
     uint32_t nWifi = 5;
     bool tracing = false;
 
@@ -62,19 +63,16 @@ int main(int argc, char* argv[])
     
     */
 
-    // The underlying restriction of 18 is due to the grid position
-    // allocator's configuration; the grid layout will exceed the
-    // bounding box if more than 18 nodes are provided.
-
     if (verbose)
     {
         LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
         LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
     }
-
+    // Creating wifi nodes
     NodeContainer wifiAdHocNodes;
     wifiAdHocNodes.Create(nWifi);
 
+    // Setting the channel and the physic layer
     YansWifiChannelHelper channel = YansWifiChannelHelper::Default();
     YansWifiPhyHelper phy;
     phy.SetChannel(channel.Create());

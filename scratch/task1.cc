@@ -129,20 +129,22 @@ int main(int argc, char* argv[])
     ApplicationContainer clientApps = echoClient.Install(wifiStaNodes.Get(nWifi - 1));
     clientApps.Start(Seconds(2.0));
     clientApps.Stop(Seconds(10.0));
+    
+    */
 
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
-    Simulator::Stop(Seconds(10.0));
+    // Simulator::Stop(Seconds(10.0));
 
+    /*
     if (tracing)
     {
         phy.SetPcapDataLinkType(WifiPhyHelper::DLT_IEEE802_11_RADIO);
-        pointToPoint.EnablePcapAll("third");
         phy.EnablePcap("third", apDevices.Get(0));
-        csma.EnablePcap("third", csmaDevices.Get(0), true);
     }
+    */
 
     Simulator::Run();
     Simulator::Destroy();
-    return 0;   */
+    return 0;   
 }       

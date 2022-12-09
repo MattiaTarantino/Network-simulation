@@ -110,10 +110,9 @@ int main(int argc, char* argv[])
     stack.Install(wifiAdHocNodes);
 
     Ipv4AddressHelper address;
-
+    NS_LOG_INFO("Assign IP Addresses.");
     address.SetBase("192.168.1.0", "/24");
-    Ipv4InterfaceContainer p2pInterfaces;
-    p2pInterfaces = address.Assign(p2pDevices);
+    Ipv4InterfaceContainer adHocInterface = address.Assign(adHocDevices);
 /*
     address.SetBase("10.1.2.0", "255.255.255.0");
     Ipv4InterfaceContainer csmaInterfaces;

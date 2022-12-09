@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
     serverApps.Stop(Seconds(10.0));
 
 //  UDP Echo Client on n4
-    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(0), 20);
+    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(3), 20);
     echoClient.SetAttribute("MaxPackets", UintegerValue(1));
     echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));
     echoClient.SetAttribute("PacketSize", UintegerValue(512));
@@ -137,6 +137,16 @@ int main(int argc, char* argv[])
     ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(3));
     clientApps.Start(Seconds(1.0));
     clientApps.Stop(Seconds(3.0));
+
+//  UDP Echo Client on n3
+    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(2), 20);
+    echoClient.SetAttribute("MaxPackets", UintegerValue(1));
+    echoClient.SetAttribute("Interval", TimeValue(Seconds(2.0)));
+    echoClient.SetAttribute("PacketSize", UintegerValue(512));
+
+    ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(2));
+    clientApps.Start(Seconds(1.0));
+    clientApps.Stop(Seconds(5.0));
     
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
   /*  

@@ -43,8 +43,7 @@ NS_LOG_COMPONENT_DEFINE("HW2_Task1_Team_48");
 int main(int argc, char* argv[])
 {
     bool verbose = true;
-    uint32_t nCsma = 3;
-    uint32_t nWifi = 3;
+    uint32_t nWifi = 5;
     bool tracing = false;
 
     CommandLine cmd(__FILE__);
@@ -81,30 +80,8 @@ int main(int argc, char* argv[])
         LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
     }
 
-    NodeContainer p2pNodes;
-    p2pNodes.Create(2);
-
-    PointToPointHelper pointToPoint;
-    pointToPoint.SetDeviceAttribute("DataRate", StringValue("5Mbps"));
-    pointToPoint.SetChannelAttribute("Delay", StringValue("2ms"));
-
-    NetDeviceContainer p2pDevices;
-    p2pDevices = pointToPoint.Install(p2pNodes);
-
-    NodeContainer csmaNodes;
-    csmaNodes.Add(p2pNodes.Get(1));
-    csmaNodes.Create(nCsma);
-
-    CsmaHelper csma;
-    csma.SetChannelAttribute("DataRate", StringValue("100Mbps"));
-    csma.SetChannelAttribute("Delay", TimeValue(NanoSeconds(6560)));
-
-    NetDeviceContainer csmaDevices;
-    csmaDevices = csma.Install(csmaNodes);
-
-    NodeContainer wifiStaNodes;
-    wifiStaNodes.Create(nWifi);
-    NodeContainer wifiApNode = p2pNodes.Get(0);
+    NodeContainer wifiAdHocNodes;
+    wifiAdHocNodes.Create(nWifi);
 
     YansWifiChannelHelper channel = YansWifiChannelHelper::Default();
     YansWifiPhyHelper phy;
@@ -115,16 +92,12 @@ int main(int argc, char* argv[])
 
     WifiHelper wifi;
 
-    NetDeviceContainer staDevices;
-    mac.SetType("ns3::StaWifiMac", "Ssid", SsidValue(ssid), "ActiveProbing", BooleanValue(false));
-    staDevices = wifi.Install(phy, mac, wifiStaNodes);
-
-    NetDeviceContainer apDevices;
-    mac.SetType("ns3::ApWifiMac", "Ssid", SsidValue(ssid));
-    apDevices = wifi.Install(phy, mac, wifiApNode);
+    NetDeviceContainer adHocDevices;
+    mac.SetType("ns3::AdhocWifiMac");
+    adHocDevices = wifi.Install(phy, mac, wifiAdHocNodes);
 
     MobilityHelper mobility;
-
+/*
     mobility.SetPositionAllocator("ns3::GridPositionAllocator",
                                   "MinX",
                                   DoubleValue(0.0),
@@ -195,5 +168,5 @@ int main(int argc, char* argv[])
 
     Simulator::Run();
     Simulator::Destroy();
-    return 0;
-}
+    return 0;   */
+}       

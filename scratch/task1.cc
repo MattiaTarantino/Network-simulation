@@ -65,50 +65,8 @@ using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("HW2_Task1_Team_48");
 
-/**
- * Function called when a packet is received.
- *
- * \param socket The receiving socket.
- */
-void
-ReceivePacket(Ptr<Socket> socket)
-{
-    while (socket->Recv())
-    {
-        NS_LOG_UNCOND("Received one packet!");
-    }
-}
+int main(int argc, char* argv[]){
 
-/**
- * Generate traffic.
- *
- * \param socket The sending socket.
- * \param pktSize The packet size.
- * \param pktCount The packet count.
- * \param pktInterval The interval between two packets.
- */
-static void
-GenerateTraffic(Ptr<Socket> socket, uint32_t pktSize, uint32_t pktCount, Time pktInterval)
-{
-    if (pktCount > 0)
-    {
-        socket->Send(Create<Packet>(pktSize));
-        Simulator::Schedule(pktInterval,
-                            &GenerateTraffic,
-                            socket,
-                            pktSize,
-                            pktCount - 1,
-                            pktInterval);
-    }
-    else
-    {
-        socket->Close();
-    }
-}
-
-int
-main(int argc, char* argv[])
-{
     std::string phyMode("DsssRate1Mbps");
     double rss = -80;           // -dBm
     uint32_t packetSize = 1000; // bytes
@@ -210,14 +168,6 @@ main(int argc, char* argv[])
 
     // Output what we are doing
     NS_LOG_UNCOND("Testing " << numPackets << " packets sent with receiver rss " << rss);
-
-    Simulator::ScheduleWithContext(source->GetNode()->GetId(),
-                                   Seconds(1.0),
-                                   &GenerateTraffic,
-                                   source,
-                                   packetSize,
-                                   numPackets,
-                                   interPacketInterval);
 
     Simulator::Run();
     Simulator::Destroy();

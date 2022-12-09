@@ -168,7 +168,19 @@ int main(int argc, char* argv[])
         AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");                   // rivedere: prof dice di dichiararlo fuori 
 
             anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-0"); 
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);                                     // rivedere id 
+
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(3), "CLI-3"); 
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(3), 0, 255, 0);                                     // rivedere id 
+
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(4), "CLI-4"); 
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(4), 0, 255, 0);                                     // rivedere id 
+
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(1), "HOC-1"); 
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(1), 0, 0, 255);                                     // rivedere id 
+
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(2), "HOC-2"); 
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(2), 0, 0, 255);                                     // rivedere id 
 
         // Enabling writing the packet metadata to the XML trace
         anim.EnablePacketMetadata();

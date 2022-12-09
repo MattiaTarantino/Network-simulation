@@ -129,22 +129,22 @@ int main(int argc, char* argv[])
     serverApps.Stop(Seconds(10.0));
 
 //  UDP Echo Client on n4
-    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(3), 20);
+    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(4), 20);
     echoClient.SetAttribute("MaxPackets", UintegerValue(1));
     echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));
     echoClient.SetAttribute("PacketSize", UintegerValue(512));
 
-    ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(3));
+    ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(4));
     clientApps.Start(Seconds(1.0));
     clientApps.Stop(Seconds(3.0));
 
 //  UDP Echo Client on n3
-    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(2), 20);
+    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(3), 20);
     echoClient.SetAttribute("MaxPackets", UintegerValue(1));
     echoClient.SetAttribute("Interval", TimeValue(Seconds(2.0)));
     echoClient.SetAttribute("PacketSize", UintegerValue(512));
 
-    ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(2));
+    ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(3));
     clientApps.Start(Seconds(1.0));
     clientApps.Stop(Seconds(5.0));
     
@@ -167,11 +167,8 @@ int main(int argc, char* argv[])
 
         AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");                   // rivedere: prof dice di dichiararlo fuori 
 
-        for (uint32_t i = 0; i < wifiAdHocNodes.GetN(); ++i)
-        {
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(i), "ADHOC"); 
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(i), 255, 0, 0);
-        }
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-0"); 
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);
 
         // Enabling writing the packet metadata to the XML trace
         anim.EnablePacketMetadata();

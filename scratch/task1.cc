@@ -47,7 +47,6 @@ int main(int argc, char* argv[])
     bool tracing = false;
 
     CommandLine cmd(__FILE__);
-    cmd.AddValue("nWifi", "Number of wifi STA devices", nWifi);
     cmd.AddValue("verbose", "Tell echo applications to log if true", verbose);
     cmd.AddValue("tracing", "Enable pcap tracing", tracing);
 
@@ -66,12 +65,6 @@ int main(int argc, char* argv[])
     // The underlying restriction of 18 is due to the grid position
     // allocator's configuration; the grid layout will exceed the
     // bounding box if more than 18 nodes are provided.
-    if (nWifi > 18)
-    {
-        std::cout << "nWifi should be 18 or less; otherwise grid layout exceeds the bounding box"
-                  << std::endl;
-        return 1;
-    }
 
     if (verbose)
     {
@@ -90,6 +83,7 @@ int main(int argc, char* argv[])
     Ssid ssid = Ssid("ns-3-ssid");
 
     WifiHelper wifi;
+    wifi.SetRemoteStationManager("ns3::AarfWifiManager");   // Setting AARF algorithm
 
     NetDeviceContainer adHocDevices;
     mac.SetType("ns3::AdhocWifiMac");

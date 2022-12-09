@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
     serverApps.Stop(Seconds(10.0));
 
 //  UDP Echo Client on n4
-    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(0), 63);
+    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(0), 20);
     echoClient.SetAttribute("MaxPackets", UintegerValue(1));
     echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));
     echoClient.SetAttribute("PacketSize", UintegerValue(512));

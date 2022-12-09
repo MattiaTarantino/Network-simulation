@@ -106,6 +106,7 @@ int main(int argc, char* argv[])
                               RectangleValue(Rectangle(-90, 90, -90, 90)));
     mobility.Install(wifiAdHocNodes);
 
+    // Installing stack and assigning IP addresses to our device interface
     InternetStackHelper stack;
     stack.Install(wifiAdHocNodes);
 
@@ -114,14 +115,6 @@ int main(int argc, char* argv[])
     address.SetBase("192.168.1.0", "/24");
     Ipv4InterfaceContainer adHocInterface = address.Assign(adHocDevices);
 /*
-    address.SetBase("10.1.2.0", "255.255.255.0");
-    Ipv4InterfaceContainer csmaInterfaces;
-    csmaInterfaces = address.Assign(csmaDevices);
-
-    address.SetBase("10.1.3.0", "255.255.255.0");
-    address.Assign(staDevices);
-    address.Assign(apDevices);
-
     UdpEchoServerHelper echoServer(9);
 
     ApplicationContainer serverApps = echoServer.Install(csmaNodes.Get(nCsma));

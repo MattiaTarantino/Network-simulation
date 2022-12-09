@@ -23,6 +23,7 @@
 #include "ns3/point-to-point-module.h"
 #include "ns3/ssid.h"
 #include "ns3/yans-wifi-helper.h"
+#include "ns3/netanim-module.h"
 
 // Default Network Topology
 //
@@ -46,6 +47,7 @@ int main(int argc, char* argv[])
     // Setting the number of wifi nodes
     uint32_t nWifi = 5;
     bool tracing = false;
+    bool useRtsCts = false;
 
     CommandLine cmd(__FILE__);
     cmd.AddValue("verbose", "Tell echo applications to log if true", verbose);
@@ -86,6 +88,7 @@ int main(int argc, char* argv[])
     mac.SetType("ns3::AdhocWifiMac");
     NetDeviceContainer adHocDevices = wifi.Install(phy, mac, wifiAdHocNodes);
 
+    // Adding mobility models
     MobilityHelper mobility;
     mobility.SetPositionAllocator("ns3::GridPositionAllocator",
                                   "MinX",
@@ -104,6 +107,8 @@ int main(int argc, char* argv[])
     mobility.SetMobilityModel("ns3::RandomWalk2dMobilityModel",
                               "Bounds",
                               RectangleValue(Rectangle(-90, 90, -90, 90)));
+
+    // Installing mobility models on the adhoc nodes
     mobility.Install(wifiAdHocNodes);
 
     // Installing stack and assigning IP addresses to our device interface
@@ -136,7 +141,32 @@ int main(int argc, char* argv[])
 
     // Simulator::Stop(Seconds(10.0));
 
-    /*
+    // Creating state parameter with default configuration off
+    std::string state = "off";
+
+    if (useRtsCts == true) {
+        state = "on";
+    }
+
+    AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");
+
+    for (uint32_t i = 0; i < wifiAdHocNodes.GetN(); ++i)
+    {
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(i), "ADHOC"); 
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(i), 255, 0, 0);
+    }
+
+    // Enabling writing the packet metadata to the XML trace
+    anim.EnablePacketMetadata(); 
+ /*   
+    anim.EnableIpv4RouteTracking("routingtable-wireless.xml",
+                                 Seconds(0),
+                                 Seconds(5),
+                                 Seconds(0.25));         // Optional
+    anim.EnableWifiMacCounters(Seconds(0), Seconds(10)); // Optional
+    anim.EnableWifiPhyCounters(Seconds(0), Seconds(10)); // Optional
+
+    
     if (tracing)
     {
         phy.SetPcapDataLinkType(WifiPhyHelper::DLT_IEEE802_11_RADIO);

@@ -122,8 +122,8 @@ int main(int argc, char* argv[])
     Ipv4InterfaceContainer adHocInterface = address.Assign(adHocDevices);
     
     
-//  UDP Echo Server on n0, port 63 
-    UdpEchoServerHelper echoServer(63);
+//  UDP Echo Server on n0, port 20
+    UdpEchoServerHelper echoServer(20);
     ApplicationContainer serverApps = echoServer.Install(wifiAdHocNodes.Get(0));
     serverApps.Start(Seconds(1.0));
     serverApps.Stop(Seconds(10.0));

@@ -155,7 +155,7 @@ int main(int argc, char* argv[])
             state = "on";
         }
 
-        AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");
+        AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");                   // rivedere: prof dice di dichiararlo fuori 
 
         for (uint32_t i = 0; i < wifiAdHocNodes.GetN(); ++i)
         {

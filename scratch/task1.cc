@@ -47,24 +47,22 @@ int main(int argc, char* argv[])
     // Setting the number of wifi nodes
     uint32_t nWifi = 5;
     bool tracing = false;
-    bool useRtsCts = false;
+    bool enableCtsRts = false;    //bool useRtsCts = false;
     bool useNetAnim = false;
 
     CommandLine cmd(__FILE__);
     cmd.AddValue("verbose", "Tell echo applications to log if true", verbose);
     cmd.AddValue("tracing", "Enable pcap tracing", tracing);
+    cmd.AddValue("enableCtsRts", "Enable Cts and Rts frames", enableCtsRts);
+    cmd.AddValue("useNetAnim", "Enable NetAnim", useNetAnim);
 
     cmd.Parse(argc, argv);
 
-    /*
     
-    PASSARE DA LINEA DI COMANDO?
-
-    bool enableCtsRts = true;
-    UintegerValue ctsThreshold = (enableCtsRts? UintegerValue(100): UintegerValue(2346));
+    // PASSARE DA LINEA DI COMANDO?
+    //bool enableCtsRts = true;   questa variabile non potrebbe essere sostituita da riga 50? Non mi sembra ne servano 2
+    UintegerValue ctsThreshold = (enableCtsRts? UintegerValue(0): UintegerValue(99999));
     Config::SetDefault("ns3::WifiRemoteStationManager::RtsCtsThreshold", ctsThreshold);
-    
-    */
 
     if (verbose)
     {
@@ -82,6 +80,7 @@ int main(int argc, char* argv[])
 
     // Setting wifi and AARF algorithm
     WifiHelper wifi;
+    wifi.SetStandard(ns3::WIFI_STANDARD_80211g);
     wifi.SetRemoteStationManager("ns3::AarfWifiManager");
 
     // Add a mac and set it to adhoc mode
@@ -139,64 +138,64 @@ int main(int argc, char* argv[])
     clientApps.Stop(Seconds(3.0));
 
 //  UDP Echo Client on n3
-    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(3), 20);
-    echoClient.SetAttribute("MaxPackets", UintegerValue(1));
-    echoClient.SetAttribute("Interval", TimeValue(Seconds(2.0)));
-    echoClient.SetAttribute("PacketSize", UintegerValue(512));
+    UdpEchoClientHelper echoClient3(adHocInterface.GetAddress(3), 20);
+    echoClient3.SetAttribute("MaxPackets", UintegerValue(1));
+    echoClient3.SetAttribute("Interval", TimeValue(Seconds(2.0)));
+    echoClient3.SetAttribute("PacketSize", UintegerValue(512));
 
-    ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(3));
+    clientApps = echoClient3.Install(wifiAdHocNodes.Get(3));
     clientApps.Start(Seconds(1.0));
     clientApps.Stop(Seconds(5.0));
     
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
-  /*  
+    
     if (tracing)
     {
         phy.SetPcapDataLinkType(WifiPhyHelper::DLT_IEEE802_11_RADIO);
-        phy.EnablePcap("third", apDevices.Get(0));
+        phy.EnablePcap("task1", adHocDevices.Get(2));
     }
-    */  
-    
-    if(useNetAnim) {
+
+    if(useNetAnim) 
+    {
         // Creating state parameter with default configuration off
         std::string state = "off";
 
-        if (useRtsCts == true) {
+        if (enableCtsRts == true) {//if (useRtsCts == true) {
             state = "on";
         }
 
-        AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");                   // rivedere: prof dice di dichiararlo fuori 
+        AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");                   // rivedere: prof dice di dichiararlo fuori
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-0"); 
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);                                     // rivedere id 
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-0");
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);                                     // rivedere id
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(3), "CLI-3"); 
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(3), 0, 255, 0);                                     // rivedere id 
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(3), "CLI-3");
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(3), 0, 255, 0);                                     // rivedere id
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(4), "CLI-4"); 
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(4), 0, 255, 0);                                     // rivedere id 
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(4), "CLI-4");
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(4), 0, 255, 0);                                     // rivedere id
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(1), "HOC-1"); 
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(1), 0, 0, 255);                                     // rivedere id 
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(1), "HOC-1");
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(1), 0, 0, 255);                                     // rivedere id
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(2), "HOC-2"); 
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(2), 0, 0, 255);                                     // rivedere id 
+            anim.UpdateNodeDescription(wifiAdHocNodes.Get(2), "HOC-2");
+            anim.UpdateNodeColor(wifiAdHocNodes.Get(2), 0, 0, 255);                                     // rivedere id
 
         // Enabling writing the packet metadata to the XML trace
         anim.EnablePacketMetadata();
-
-        /*   
-        anim.EnableIpv4RouteTracking("routingtable-wireless.xml",
+ 
+        anim.EnableIpv4RouteTracking("routingtable-wireless-task1.xml",
                                  Seconds(0),
-                                 Seconds(5),
-                                 Seconds(0.25));*/
+                                 Seconds(10),
+                                 Seconds(0.25));
         anim.EnableWifiMacCounters(Seconds(0), Seconds(10));
         anim.EnableWifiPhyCounters(Seconds(0), Seconds(10));
         Simulator::Stop(Seconds(10.0));
         Simulator::Run();
         Simulator::Destroy();
     }
-    else {
+    else 
+    {
         Simulator::Stop(Seconds(10.0));
         Simulator::Run();
         Simulator::Destroy();

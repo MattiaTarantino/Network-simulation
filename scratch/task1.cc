@@ -25,50 +25,38 @@
 #include "ns3/yans-wifi-helper.h"
 #include "ns3/netanim-module.h"
 
-// Default Network Topology
-//
-//   Wifi 10.1.3.0
-//                 AP
-//  *    *    *    *
-//  |    |    |    |    10.1.1.0
-// n5   n6   n7   n0 -------------- n1   n2   n3   n4
-//                   point-to-point  |    |    |    |
-//                                   ================
-//                                     LAN 10.1.2.0
-
 using namespace ns3;
-
 
 NS_LOG_COMPONENT_DEFINE("HW2_Task1_Team_48");
 
-int main(int argc, char* argv[])
-{
-    bool verbose = true;
+int main(int argc, char* argv[]){
+
     // Setting the number of wifi nodes
     uint32_t nWifi = 5;
-    bool tracing = false;
-    bool enableCtsRts = false;    //bool useRtsCts = false;
+
+    // Setting command line parameters
+    bool useRtsCts = false;
+    bool verbose = false;
     bool useNetAnim = false;
+ // bool tracing = false;                                                                   // commentata tutta la parte della var tracing dato che nel task 1 nei parametri da passare da linea di comando non vi è il tracing
 
     CommandLine cmd(__FILE__);
+    cmd.AddValue("useRtsCts", "Enable Rts and Cts frames", useRtsCts);
     cmd.AddValue("verbose", "Tell echo applications to log if true", verbose);
-    cmd.AddValue("tracing", "Enable pcap tracing", tracing);
-    cmd.AddValue("enableCtsRts", "Enable Cts and Rts frames", enableCtsRts);
     cmd.AddValue("useNetAnim", "Enable NetAnim", useNetAnim);
+ // cmd.AddValue("tracing", "Enable pcap tracing", tracing);
 
     cmd.Parse(argc, argv);
 
-    
-    // PASSARE DA LINEA DI COMANDO?
-    //bool enableCtsRts = true;   questa variabile non potrebbe essere sostituita da riga 50? Non mi sembra ne servano 2
-    UintegerValue ctsThreshold = (enableCtsRts? UintegerValue(0): UintegerValue(99999));
+    // Forcing the use of RTS and CTS
+    UintegerValue ctsThreshold = (useRtsCts? UintegerValue(100): UintegerValue(2346));
     Config::SetDefault("ns3::WifiRemoteStationManager::RtsCtsThreshold", ctsThreshold);
 
-    if (verbose)
-    {
+    if (verbose){
         LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
         LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
     }
+
     // Creating wifi nodes
     NodeContainer wifiAdHocNodes;
     wifiAdHocNodes.Create(nWifi);
@@ -86,21 +74,23 @@ int main(int argc, char* argv[])
     // Add a mac and set it to adhoc mode
     WifiMacHelper mac;
     mac.SetType("ns3::AdhocWifiMac");
-    NetDeviceContainer adHocDevices = wifi.Install(phy, mac, wifiAdHocNodes);
+
+    NetDeviceContainer adHocDevices;
+    adHocDevices = wifi.Install(phy, mac, wifiAdHocNodes);
 
     // Adding mobility models
     MobilityHelper mobility;
     mobility.SetPositionAllocator("ns3::GridPositionAllocator",
                                   "MinX",
-                                  DoubleValue(0.0),
+                                  DoubleValue(10.0),
                                   "MinY",
-                                  DoubleValue(0.0),
+                                  DoubleValue(10.0),
                                   "DeltaX",
                                   DoubleValue(5.0),
                                   "DeltaY",
-                                  DoubleValue(10.0),
+                                  DoubleValue(2.0),
                                   "GridWidth",
-                                  UintegerValue(3),
+                                  UintegerValue(5),
                                   "LayoutType",
                                   StringValue("RowFirst"));
 
@@ -119,17 +109,16 @@ int main(int argc, char* argv[])
     NS_LOG_INFO("Assign IP Addresses.");
     address.SetBase("192.168.1.0", "/24");
     Ipv4InterfaceContainer adHocInterface = address.Assign(adHocDevices);
-    
-    
+   
 //  UDP Echo Server on n0, port 20
     UdpEchoServerHelper echoServer(20);
     ApplicationContainer serverApps = echoServer.Install(wifiAdHocNodes.Get(0));
-    serverApps.Start(Seconds(1.0));
+    serverApps.Start(Seconds(0.0));
     serverApps.Stop(Seconds(10.0));
 
 //  UDP Echo Client on n4
     UdpEchoClientHelper echoClient(adHocInterface.GetAddress(4), 20);
-    echoClient.SetAttribute("MaxPackets", UintegerValue(1));
+    echoClient.SetAttribute("MaxPackets", UintegerValue(2));
     echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));
     echoClient.SetAttribute("PacketSize", UintegerValue(512));
 
@@ -139,28 +128,26 @@ int main(int argc, char* argv[])
 
 //  UDP Echo Client on n3
     UdpEchoClientHelper echoClient3(adHocInterface.GetAddress(3), 20);
-    echoClient3.SetAttribute("MaxPackets", UintegerValue(1));
+    echoClient3.SetAttribute("MaxPackets", UintegerValue(2));
     echoClient3.SetAttribute("Interval", TimeValue(Seconds(2.0)));
     echoClient3.SetAttribute("PacketSize", UintegerValue(512));
 
     clientApps = echoClient3.Install(wifiAdHocNodes.Get(3));
-    clientApps.Start(Seconds(1.0));
+    clientApps.Start(Seconds(2.0));
     clientApps.Stop(Seconds(5.0));
     
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
     
-    if (tracing)
-    {
-        phy.SetPcapDataLinkType(WifiPhyHelper::DLT_IEEE802_11_RADIO);
-        phy.EnablePcap("task1", adHocDevices.Get(2));
-    }
+  //  if (tracing)
+  //  {
+        phy.EnablePcap("task1-0-n2.pcap", adHocDevices.Get(2), true, true);                     // in una mail ha detto di usare per il nome del pcap lo stesso di xml ma non specifica state in base a cosa dovrebbe variare dato che il tracing dovrebbe essere sempre on
+  //  }
 
-    if(useNetAnim) 
-    {
+    if(useNetAnim) {
         // Creating state parameter with default configuration off
         std::string state = "off";
 
-        if (enableCtsRts == true) {//if (useRtsCts == true) {
+        if (useRtsCts == true) {
             state = "on";
         }
 
@@ -187,18 +174,18 @@ int main(int argc, char* argv[])
         anim.EnableIpv4RouteTracking("routingtable-wireless-task1.xml",
                                  Seconds(0),
                                  Seconds(10),
-                                 Seconds(0.25));
+                                 Seconds(0.25));                                                        
         anim.EnableWifiMacCounters(Seconds(0), Seconds(10));
         anim.EnableWifiPhyCounters(Seconds(0), Seconds(10));
         Simulator::Stop(Seconds(10.0));
         Simulator::Run();
         Simulator::Destroy();
     }
-    else 
-    {
+    else {
         Simulator::Stop(Seconds(10.0));
         Simulator::Run();
         Simulator::Destroy();
     }
+
     return 0;
 }

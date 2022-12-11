@@ -33,6 +33,9 @@ int main(int argc, char* argv[]){
 //  Setting the number of wifi nodes
     uint32_t nWifi = 5;
 
+//  Creating state parameter with default configuration off
+    std::string state = "off";
+
 //  Setting command line parameters
     bool useRtsCts = false;
     bool verbose = false;
@@ -51,6 +54,11 @@ int main(int argc, char* argv[]){
     if (verbose){
         LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
         LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
+    }
+
+//  Using RTS and CTS
+    if (useRtsCts == true) {
+        state = "on";
     }
 
 //  Creating wifi nodes
@@ -135,14 +143,6 @@ int main(int argc, char* argv[]){
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
     Simulator::Stop(Seconds(10.0));
-    
-//  Creating state parameter with default configuration off
-    std::string state = "off";
-
-//  Using RTS and CTS
-    if (useRtsCts == true) {
-        state = "on";
-    }
 
 //  Tracing
         phy.EnablePcap("task1-"+ state + "-n2.pcap", adHocDevices.Get(2), true, true);

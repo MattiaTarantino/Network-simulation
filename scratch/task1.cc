@@ -147,7 +147,7 @@ int main(int argc, char* argv[]){
 //  Tracing
     phy.EnablePcap("task1-"+ state + "-n2.pcap", adHocDevices.Get(2), true, true);
 
-// NetAnim
+//  NetAnim
     if(useNetAnim) {
         AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");               // rivedere: prof dice di dichiararlo fuori
 

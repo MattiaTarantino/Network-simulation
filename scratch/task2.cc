@@ -32,6 +32,7 @@ int main(int argc, char* argv[]){
 
     // Setting the number of wifi nodes
     uint32_t nWifi = 5;
+
     // Setting the number for the Access Point
     uint32_t nAP = 1;
 
@@ -39,7 +40,7 @@ int main(int argc, char* argv[]){
     bool useRtsCts = false;
     bool verbose = false;
     bool useNetAnim = false;
-    Ssid ssid = Ssid("sommaMatricole");
+    Ssid ssid = Ssid("TLC2022");
 
     CommandLine cmd(__FILE__);
     cmd.AddValue("useRtsCts", "Enable Rts and Cts frames", useRtsCts);
@@ -49,8 +50,7 @@ int main(int argc, char* argv[]){
    
     cmd.Parse(argc, argv);
 
-    if (verbose)
-    {
+    if (verbose){
         LogComponentEnable("UdpEchoClientApplication", LOG_LEVEL_INFO);
         LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
     }

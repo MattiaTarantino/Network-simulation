@@ -136,18 +136,20 @@ int main(int argc, char* argv[]){
 
     Simulator::Stop(Seconds(10.0));
     
+//  Creating state parameter with default configuration off
+    std::string state = "off";
+
+//  Using RTS and CTS
+    if (useRtsCts == true) {
+        state = "on";
+    }
+
 //  Tracing
-    phy.EnablePcap("task1-0-n2.pcap", adHocDevices.Get(2), true, true);          // in una mail ha detto di usare per il nome del pcap lo stesso di xml ma non specifica state in base a cosa dovrebbe variare dato che il tracing dovrebbe essere sempre on
+        phy.EnablePcap("task1-"+ state + "-n2.pcap", adHocDevices.Get(2), true, true);
 
+// NetAnim
     if(useNetAnim) {
-    //  Creating state parameter with default configuration off
-        std::string state = "off";
-
-        if (useRtsCts == true) {
-            state = "on";
-        }
-
-        AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");                   // rivedere: prof dice di dichiararlo fuori
+        AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");               // rivedere: prof dice di dichiararlo fuori
 
         anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-0");
         anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);                                     // rivedere id

@@ -82,15 +82,15 @@ int main(int argc, char* argv[]){
     MobilityHelper mobility;
     mobility.SetPositionAllocator("ns3::GridPositionAllocator",
                                   "MinX",
-                                  DoubleValue(10.0),
+                                  DoubleValue(0.0),
                                   "MinY",
-                                  DoubleValue(10.0),
+                                  DoubleValue(0.0),
                                   "DeltaX",
                                   DoubleValue(5.0),
                                   "DeltaY",
-                                  DoubleValue(2.0),
+                                  DoubleValue(10.0),
                                   "GridWidth",
-                                  UintegerValue(5),
+                                  UintegerValue(3),
                                   "LayoutType",
                                   StringValue("RowFirst"));
 

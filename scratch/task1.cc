@@ -49,7 +49,7 @@ int main(int argc, char* argv[]){
     cmd.Parse(argc, argv);
 
     // Forcing the use of RTS and CTS
-    UintegerValue ctsThreshold = (useRtsCts? UintegerValue(100): UintegerValue(2346));
+    UintegerValue ctsThreshold = (useRtsCts? UintegerValue(0): UintegerValue(2346));
     Config::SetDefault("ns3::WifiRemoteStationManager::RtsCtsThreshold", ctsThreshold);
 
     if (verbose){

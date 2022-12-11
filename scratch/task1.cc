@@ -106,14 +106,14 @@ int main(int argc, char* argv[]){
     address.SetBase("192.168.1.0", "/24");
     Ipv4InterfaceContainer adHocInterface = address.Assign(adHocDevices);
    
-//  UDP Echo Server on n0, port 20
+//  UDP Echo Server on n0, port 20 
     UdpEchoServerHelper echoServer(20);
     ApplicationContainer serverApps = echoServer.Install(wifiAdHocNodes.Get(0));
     serverApps.Start(Seconds(0.0));
     serverApps.Stop(Seconds(10.0));
 
 //  UDP Echo Client on n4
-    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(4), 20);
+    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(0), 20);
     echoClient.SetAttribute("MaxPackets", UintegerValue(2));
     echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));
     echoClient.SetAttribute("PacketSize", UintegerValue(512));
@@ -123,7 +123,7 @@ int main(int argc, char* argv[]){
     clientApps.Stop(Seconds(3.0));
 
 //  UDP Echo Client on n3
-    UdpEchoClientHelper echoClient3(adHocInterface.GetAddress(3), 20);
+    UdpEchoClientHelper echoClient3(adHocInterface.GetAddress(0), 20);
     echoClient3.SetAttribute("MaxPackets", UintegerValue(2));
     echoClient3.SetAttribute("Interval", TimeValue(Seconds(2.0)));
     echoClient3.SetAttribute("PacketSize", UintegerValue(512));
@@ -131,7 +131,7 @@ int main(int argc, char* argv[]){
     clientApps = echoClient3.Install(wifiAdHocNodes.Get(3));
     clientApps.Start(Seconds(2.0));
     clientApps.Stop(Seconds(5.0));
-    
+   
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
     Simulator::Stop(Seconds(10.0));

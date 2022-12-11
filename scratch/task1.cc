@@ -38,7 +38,6 @@ int main(int argc, char* argv[]){
     bool useRtsCts = false;
     bool verbose = false;
     bool useNetAnim = false;
-//  bool tracing = false;               // commentata tutta la parte della var tracing dato che nel task 1 nei parametri da passare da linea di comando non vi è il tracing
 
     CommandLine cmd(__FILE__);
     cmd.AddValue("useRtsCts", "Enable Rts and Cts frames", useRtsCts);
@@ -138,10 +137,8 @@ int main(int argc, char* argv[]){
     
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
     
-//  if (tracing)
-//  {
+
     phy.EnablePcap("task1-0-n2.pcap", adHocDevices.Get(2), true, true);          // in una mail ha detto di usare per il nome del pcap lo stesso di xml ma non specifica state in base a cosa dovrebbe variare dato che il tracing dovrebbe essere sempre on
-//  }
 
     if(useNetAnim) {
         // Creating state parameter with default configuration off

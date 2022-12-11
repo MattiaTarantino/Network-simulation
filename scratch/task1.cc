@@ -61,7 +61,7 @@ int main(int argc, char* argv[]){
         state = "on";
     }
 
-//  Creating wifi nodes
+//  Creating wifi AdHocNodes
     NodeContainer wifiAdHocNodes;
     wifiAdHocNodes.Create(nWifi);
 
@@ -121,12 +121,12 @@ int main(int argc, char* argv[]){
     serverApps.Stop(Seconds(10.0));
 
 //  UDP Echo Client on n4
-    UdpEchoClientHelper echoClient(adHocInterface.GetAddress(0), 20);
-    echoClient.SetAttribute("MaxPackets", UintegerValue(2));
-    echoClient.SetAttribute("Interval", TimeValue(Seconds(1.0)));
-    echoClient.SetAttribute("PacketSize", UintegerValue(512));
+    UdpEchoClientHelper echoClient4(adHocInterface.GetAddress(0), 20);
+    echoClient4.SetAttribute("MaxPackets", UintegerValue(2));
+    echoClient4.SetAttribute("Interval", TimeValue(Seconds(1.0)));
+    echoClient4.SetAttribute("PacketSize", UintegerValue(512));
 
-    ApplicationContainer clientApps = echoClient.Install(wifiAdHocNodes.Get(4));
+    ApplicationContainer clientApps = echoClient4.Install(wifiAdHocNodes.Get(4));
     clientApps.Start(Seconds(1.0));
     clientApps.Stop(Seconds(3.0));
 
@@ -149,7 +149,7 @@ int main(int argc, char* argv[]){
 
 //  NetAnim
     if(useNetAnim) {
-        AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");               // rivedere: prof dice di dichiararlo fuori
+        AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");               
 
         anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-0");
         anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);                                     // rivedere id

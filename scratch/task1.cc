@@ -137,7 +137,6 @@ int main(int argc, char* argv[]){
     Simulator::Stop(Seconds(10.0));
     
 //  Tracing
-    phy.SetPcapDataLinkType(WifiPhyHelper::DLT_IEEE802_11_RADIO);
     phy.EnablePcap("task1-0-n2.pcap", adHocDevices.Get(2), true, true);          // in una mail ha detto di usare per il nome del pcap lo stesso di xml ma non specifica state in base a cosa dovrebbe variare dato che il tracing dovrebbe essere sempre on
 
     if(useNetAnim) {

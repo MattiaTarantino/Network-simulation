@@ -19,6 +19,7 @@
 #include "ns3/internet-module.h"
 #include "ns3/mobility-module.h"
 #include "ns3/network-module.h"
+#include "ns3/point-to-point-module.h"
 #include "ns3/ssid.h"
 #include "ns3/yans-wifi-helper.h"
 #include "ns3/netanim-module.h"
@@ -132,7 +133,11 @@ int main(int argc, char* argv[]){
     clientApps.Stop(Seconds(5.0));
     
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
+
+    Simulator::Stop(Seconds(10.0));
     
+//  Tracing
+    phy.SetPcapDataLinkType(WifiPhyHelper::DLT_IEEE802_11_RADIO);
     phy.EnablePcap("task1-0-n2.pcap", adHocDevices.Get(2), true, true);          // in una mail ha detto di usare per il nome del pcap lo stesso di xml ma non specifica state in base a cosa dovrebbe variare dato che il tracing dovrebbe essere sempre on
 
     if(useNetAnim) {
@@ -145,20 +150,20 @@ int main(int argc, char* argv[]){
 
         AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");                   // rivedere: prof dice di dichiararlo fuori
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-0");
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-0");
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);                                     // rivedere id
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(3), "CLI-3");
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(3), 0, 255, 0);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(3), "CLI-3");
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(3), 0, 255, 0);                                     // rivedere id
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(4), "CLI-4");
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(4), 0, 255, 0);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(4), "CLI-4");
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(4), 0, 255, 0);                                     // rivedere id
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(1), "HOC-1");
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(1), 0, 0, 255);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(1), "HOC-1");
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(1), 0, 0, 255);                                     // rivedere id
 
-            anim.UpdateNodeDescription(wifiAdHocNodes.Get(2), "HOC-2");
-            anim.UpdateNodeColor(wifiAdHocNodes.Get(2), 0, 0, 255);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(2), "HOC-2");
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(2), 0, 0, 255);                                     // rivedere id
 
     //  Enabling writing the packet metadata to the XML trace
         anim.EnablePacketMetadata();
@@ -168,15 +173,12 @@ int main(int argc, char* argv[]){
                                  Seconds(0.25));                                                        
         anim.EnableWifiMacCounters(Seconds(0), Seconds(10));
         anim.EnableWifiPhyCounters(Seconds(0), Seconds(10));
-        Simulator::Stop(Seconds(10.0));
         Simulator::Run();
         Simulator::Destroy();
     }
     else {
-        Simulator::Stop(Seconds(10.0));
         Simulator::Run();
         Simulator::Destroy();
     }
-
     return 0;
 }

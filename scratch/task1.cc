@@ -31,25 +31,25 @@ NS_LOG_COMPONENT_DEFINE("HW2_Task1_Team_48");
 
 int main(int argc, char* argv[]){
 
-    // Setting the number of wifi nodes
+//  Setting the number of wifi nodes
     uint32_t nWifi = 5;
 
-    // Setting command line parameters
+//  Setting command line parameters
     bool useRtsCts = false;
     bool verbose = false;
     bool useNetAnim = false;
- // bool tracing = false;                                                                   // commentata tutta la parte della var tracing dato che nel task 1 nei parametri da passare da linea di comando non vi è il tracing
+//  bool tracing = false;               // commentata tutta la parte della var tracing dato che nel task 1 nei parametri da passare da linea di comando non vi è il tracing
 
     CommandLine cmd(__FILE__);
     cmd.AddValue("useRtsCts", "Enable Rts and Cts frames", useRtsCts);
     cmd.AddValue("verbose", "Tell echo applications to log if true", verbose);
     cmd.AddValue("useNetAnim", "Enable NetAnim", useNetAnim);
- // cmd.AddValue("tracing", "Enable pcap tracing", tracing);
+//  cmd.AddValue("tracing", "Enable pcap tracing", tracing);
 
     cmd.Parse(argc, argv);
 
-    // Forcing the use of RTS and CTS
-    UintegerValue ctsThreshold = (useRtsCts? UintegerValue(0): UintegerValue(2346));
+//  Forcing the use of RTS and CTS
+    UintegerValue ctsThreshold = (useRtsCts? UintegerValue(100): UintegerValue(2346));
     Config::SetDefault("ns3::WifiRemoteStationManager::RtsCtsThreshold", ctsThreshold);
 
     if (verbose){
@@ -57,28 +57,28 @@ int main(int argc, char* argv[]){
         LogComponentEnable("UdpEchoServerApplication", LOG_LEVEL_INFO);
     }
 
-    // Creating wifi nodes
+//  Creating wifi nodes
     NodeContainer wifiAdHocNodes;
     wifiAdHocNodes.Create(nWifi);
 
-    // Setting the channel and the physic layer
+//  Setting the channel and the physic layer
     YansWifiChannelHelper channel = YansWifiChannelHelper::Default();
     YansWifiPhyHelper phy;
     phy.SetChannel(channel.Create());
 
-    // Setting wifi and AARF algorithm
+//  Setting wifi and AARF algorithm
     WifiHelper wifi;
-    wifi.SetStandard(ns3::WIFI_STANDARD_80211g);
     wifi.SetRemoteStationManager("ns3::AarfWifiManager");
+    wifi.SetStandard(WifiStandard(WIFI_STANDARD_80211g));
 
-    // Add a mac and set it to adhoc mode
+//  Add a mac and set it to adhoc mode
     WifiMacHelper mac;
     mac.SetType("ns3::AdhocWifiMac");
 
     NetDeviceContainer adHocDevices;
     adHocDevices = wifi.Install(phy, mac, wifiAdHocNodes);
 
-    // Adding mobility models
+//  Adding mobility models
     MobilityHelper mobility;
     mobility.SetPositionAllocator("ns3::GridPositionAllocator",
                                   "MinX",
@@ -98,10 +98,10 @@ int main(int argc, char* argv[]){
                               "Bounds",
                               RectangleValue(Rectangle(-90, 90, -90, 90)));
 
-    // Installing mobility models on the adhoc nodes
+//  Installing mobility models on the adhoc nodes
     mobility.Install(wifiAdHocNodes);
 
-    // Installing stack and assigning IP addresses to our device interface
+//  Installing stack and assigning IP addresses to our device interface
     InternetStackHelper stack;
     stack.Install(wifiAdHocNodes);
 
@@ -138,10 +138,10 @@ int main(int argc, char* argv[]){
     
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
     
-  //  if (tracing)
-  //  {
-        phy.EnablePcap("task1-0-n2.pcap", adHocDevices.Get(2), true, true);                     // in una mail ha detto di usare per il nome del pcap lo stesso di xml ma non specifica state in base a cosa dovrebbe variare dato che il tracing dovrebbe essere sempre on
-  //  }
+//  if (tracing)
+//  {
+    phy.EnablePcap("task1-0-n2.pcap", adHocDevices.Get(2), true, true);          // in una mail ha detto di usare per il nome del pcap lo stesso di xml ma non specifica state in base a cosa dovrebbe variare dato che il tracing dovrebbe essere sempre on
+//  }
 
     if(useNetAnim) {
         // Creating state parameter with default configuration off
@@ -168,9 +168,8 @@ int main(int argc, char* argv[]){
             anim.UpdateNodeDescription(wifiAdHocNodes.Get(2), "HOC-2");
             anim.UpdateNodeColor(wifiAdHocNodes.Get(2), 0, 0, 255);                                     // rivedere id
 
-        // Enabling writing the packet metadata to the XML trace
+    //  Enabling writing the packet metadata to the XML trace
         anim.EnablePacketMetadata();
- 
         anim.EnableIpv4RouteTracking("routingtable-wireless-task1.xml",
                                  Seconds(0),
                                  Seconds(10),

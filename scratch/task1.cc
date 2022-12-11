@@ -43,8 +43,6 @@ int main(int argc, char* argv[]){
     cmd.AddValue("useRtsCts", "Enable Rts and Cts frames", useRtsCts);
     cmd.AddValue("verbose", "Tell echo applications to log if true", verbose);
     cmd.AddValue("useNetAnim", "Enable NetAnim", useNetAnim);
-//  cmd.AddValue("tracing", "Enable pcap tracing", tracing);
-
     cmd.Parse(argc, argv);
 
 //  Forcing the use of RTS and CTS
@@ -137,11 +135,10 @@ int main(int argc, char* argv[]){
     
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
     
-
     phy.EnablePcap("task1-0-n2.pcap", adHocDevices.Get(2), true, true);          // in una mail ha detto di usare per il nome del pcap lo stesso di xml ma non specifica state in base a cosa dovrebbe variare dato che il tracing dovrebbe essere sempre on
 
     if(useNetAnim) {
-        // Creating state parameter with default configuration off
+    //  Creating state parameter with default configuration off
         std::string state = "off";
 
         if (useRtsCts == true) {

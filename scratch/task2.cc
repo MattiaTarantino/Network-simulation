@@ -156,7 +156,7 @@ int main(int argc, char* argv[]){
     Simulator::Stop(Seconds(7.0));
 
 //  Tracing
-    phy.EnablePcap("task2-"+ state + "-n4.pcap", StaDevices.Get(4), true, true);
+    phy.EnablePcap("task2-"+ state + "-n4t.pcap", StaDevices.Get(4), true, true);
     phy.EnablePcap("task2-"+ state + "-n6.pcap", ApDevices.Get(0), true, true);
 
 //  NetAnim

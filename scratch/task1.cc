@@ -143,8 +143,7 @@ int main(int argc, char* argv[]){
     Simulator::Stop(Seconds(7.0));
 
 //  Tracing
-    NodeList list; 
-    list.GetNode(2) -> GetId();
+    NodeList list;
     std::string s = std::to_string(list.GetNode(2) -> GetId());
     phy.EnablePcap("task1-"+ state + + "-" + s + ".pcap", adHocDevices.Get(2), true, true);
 

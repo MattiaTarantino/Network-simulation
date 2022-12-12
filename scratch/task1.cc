@@ -140,7 +140,7 @@ int main(int argc, char* argv[]){
    
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
-    Simulator::Stop(Seconds(10.0));
+    Simulator::Stop(Seconds(7.0));
 
 //  Tracing
     phy.EnablePcap("task1-"+ state + "-n2.pcap", adHocDevices.Get(2), true, true);

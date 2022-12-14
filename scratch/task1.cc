@@ -145,7 +145,7 @@ int main(int argc, char* argv[]){
 //  Tracing
     NodeList list;
     std::string s = std::to_string(list.GetNode(2) -> GetId());
-    phy.EnablePcap("task1-"+ state + + "-" + s + ".pcap", adHocDevices.Get(2), true, true);
+    phy.EnablePcap("task1-" + state + "-" + s + ".pcap", adHocDevices.Get(2), true, true);
 
 //  NetAnim
     if(useNetAnim) {

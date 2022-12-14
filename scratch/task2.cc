@@ -156,8 +156,11 @@ int main(int argc, char* argv[]){
     Simulator::Stop(Seconds(7.0));
 
 //  Tracing
-    phy.EnablePcap("task2-"+ state + "-n4.pcap", StaDevices.Get(4), true, true);
-    phy.EnablePcap("task2-"+ state + "-n6.pcap", ApDevices.Get(0), true, true);
+    NodeList list;
+    std::string s1 = std::to_string(list.GetNode(4) -> GetId());
+    std::string s2 = std::to_string(list.GetNode(5) -> GetId());
+    phy.EnablePcap("task2-" + state + "-" + s1 + ".pcap", StaDevices.Get(4), true, true);
+    phy.EnablePcap("task2-" + state + "-" + s2 + ".pcap", ApDevices.Get(0), true, true);
 
 //  NetAnim
     if(useNetAnim) {

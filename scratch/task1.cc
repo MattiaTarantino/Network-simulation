@@ -120,7 +120,7 @@ int main(int argc, char* argv[]){
 
 //  UDP Echo Client on n4
     UdpEchoClientHelper echoClient4(adHocInterface.GetAddress(0), 20);
-    echoClient4.SetAttribute("MaxPackets", UintegerValue(2));
+    echoClient4.SetAttribute("MaxPackets", UintegerValue(1));
     echoClient4.SetAttribute("Interval", TimeValue(Seconds(1.0)));
     echoClient4.SetAttribute("PacketSize", UintegerValue(512));
 
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]){
 
 //  UDP Echo Client on n3
     UdpEchoClientHelper echoClient3(adHocInterface.GetAddress(0), 20);
-    echoClient3.SetAttribute("MaxPackets", UintegerValue(2));
+    echoClient3.SetAttribute("MaxPackets", UintegerValue(1));
     echoClient3.SetAttribute("Interval", TimeValue(Seconds(2.0)));
     echoClient3.SetAttribute("PacketSize", UintegerValue(512));
 

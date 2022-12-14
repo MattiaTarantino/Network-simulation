@@ -166,19 +166,19 @@ int main(int argc, char* argv[]){
     if(useNetAnim) {
         AnimationInterface anim(std::string("wireless-task2-rts-") + state + ".xml");               
 
-        anim.UpdateNodeDescription(wifiStaNodes.Get(0), "SRV-0");
+        anim.UpdateNodeDescription(wifiStaNodes.Get(0), "SRV-" + std::to_string(list.GetNode(0) -> GetId()));
         anim.UpdateNodeColor(wifiStaNodes.Get(0), 255, 0, 0);                                     
 
-        anim.UpdateNodeDescription(wifiStaNodes.Get(3), "CLI-3");
+        anim.UpdateNodeDescription(wifiStaNodes.Get(3), "CLI-" + std::to_string(list.GetNode(3) -> GetId()));
         anim.UpdateNodeColor(wifiStaNodes.Get(3), 0, 255, 0);                                     
 
-        anim.UpdateNodeDescription(wifiStaNodes.Get(4), "CLI-4");
+        anim.UpdateNodeDescription(wifiStaNodes.Get(4), "CLI-" + std::to_string(list.GetNode(4) -> GetId()));
         anim.UpdateNodeColor(wifiStaNodes.Get(4), 0, 255, 0);                                     
 
-        anim.UpdateNodeDescription(wifiStaNodes.Get(1), "STA-1");
+        anim.UpdateNodeDescription(wifiStaNodes.Get(1), "STA-" + std::to_string(list.GetNode(1) -> GetId()));
         anim.UpdateNodeColor(wifiStaNodes.Get(1), 0, 0, 255);                                    
 
-        anim.UpdateNodeDescription(wifiStaNodes.Get(2), "STA-2");
+        anim.UpdateNodeDescription(wifiStaNodes.Get(2), "STA-" + std::to_string(list.GetNode(2) -> GetId()));
         anim.UpdateNodeColor(wifiStaNodes.Get(2), 0, 0, 255);        
 
         anim.UpdateNodeDescription(wifiApNode.Get(0), "AP");

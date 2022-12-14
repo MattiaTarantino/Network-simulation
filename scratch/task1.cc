@@ -151,20 +151,20 @@ int main(int argc, char* argv[]){
     if(useNetAnim) {
         AnimationInterface anim(std::string("wireless-task1-rts-") + state + ".xml");               
 
-        anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-0");
-        anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(0), "SRV-" + std::to_string(list.GetNode(0) -> GetId()));
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(0), 255, 0, 0);                                     
 
-        anim.UpdateNodeDescription(wifiAdHocNodes.Get(3), "CLI-3");
-        anim.UpdateNodeColor(wifiAdHocNodes.Get(3), 0, 255, 0);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(3), "CLI-" + std::to_string(list.GetNode(3) -> GetId()));
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(3), 0, 255, 0);                                     
 
-        anim.UpdateNodeDescription(wifiAdHocNodes.Get(4), "CLI-4");
-        anim.UpdateNodeColor(wifiAdHocNodes.Get(4), 0, 255, 0);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(4), "CLI-" + std::to_string(list.GetNode(4) -> GetId()));
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(4), 0, 255, 0);                                     
 
-        anim.UpdateNodeDescription(wifiAdHocNodes.Get(1), "HOC-1");
-        anim.UpdateNodeColor(wifiAdHocNodes.Get(1), 0, 0, 255);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(1), "HOC-" + std::to_string(list.GetNode(1) -> GetId()));
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(1), 0, 0, 255);                                     
 
-        anim.UpdateNodeDescription(wifiAdHocNodes.Get(2), "HOC-2");
-        anim.UpdateNodeColor(wifiAdHocNodes.Get(2), 0, 0, 255);                                     // rivedere id
+        anim.UpdateNodeDescription(wifiAdHocNodes.Get(2), "HOC-" + std::to_string(list.GetNode(2) -> GetId()));
+        anim.UpdateNodeColor(wifiAdHocNodes.Get(2), 0, 0, 255);                                   
 
     //  Enabling writing the packet metadata to the XML trace
         anim.EnablePacketMetadata();

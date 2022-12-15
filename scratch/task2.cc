@@ -133,6 +133,7 @@ int main(int argc, char* argv[]){
 
 //  UDP Echo Client on n3
     UdpEchoClientHelper echoClient3(StaInterface.GetAddress(0), 21);
+    echoClient3.SetAttribute("MaxPackets", UintegerValue(4));
     echoClient3.SetAttribute("Interval", TimeValue(Seconds(2.0)));
     echoClient3.SetAttribute("PacketSize", UintegerValue(512));
 

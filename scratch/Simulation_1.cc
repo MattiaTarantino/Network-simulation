@@ -43,7 +43,7 @@ using namespace ns3;
 
 int main(int argc, char* argv[]){
 
-//  Configurazione impostabile dinamicamente da linea di comando
+//  Configuration that can be set dynamically from the command line
     CommandLine cmd;
     int configuration = 0;
     cmd.AddValue("configuration", "numero configurazione", configuration);
@@ -55,66 +55,66 @@ int main(int argc, char* argv[]){
     LogComponentEnable("OnOffApplication", LOG_LEVEL_INFO);                  
     LogComponentEnable("PacketSink", LOG_LEVEL_INFO);
 
-//  Creando i nodi che compongono la stella, escluso il nodo centrale n0
+//  Creating the nodes that make up the star, excluding the central node n0
     uint32_t nSpokes = 4;
 
-//  Creando i nodi che compongono la prima LAN, escluso n4 essendo già considerato nella stella e n6 dato che verrà creato con una connessione point to point
+//  Creating the nodes that make up the first LAN, excluding n4 since it is already considered in the star and n6 since it will be created with a point to point connection
     uint32_t nCsma1 = 1;
     nCsma1 = nCsma1 == 0 ? 1 : nCsma1;
 
-//  Creando i nodi che compongono la seconda LAN, escluso n7 essendo già considerato nella connessione point-to-point
+//  Creating the nodes that make up the second LAN, excluding n7 being already considered in the point-to-point connection
     uint32_t nCsma2 = 2;
     nCsma2 = nCsma2 == 0 ? 1 : nCsma2;
 
-//  Configurando i parametri della stella n0-n{1,2,3,4} e della connessione point-to-point tra n6 e n7
+//  Configuring the parameters of the star n0-n{1,2,3,4} and the point-to-point connection between n6 and n7
     NS_LOG_INFO("Build star topology.");
     PointToPointHelper pointToPoint;
     pointToPoint.SetDeviceAttribute("DataRate", StringValue("80Mbps"));
     pointToPoint.SetChannelAttribute("Delay", StringValue("10us"));
     
-//  Creando la stella
+//  Creating the star
     PointToPointStarHelper star(nSpokes, pointToPoint);
 
-//  Creando la prima LAN partendo da n4 aggiungendo anche n6 facente parte della connessione point-to-point 
+//  Creating the first LAN starting from n4 also adding n6 which is part of the point-to-point connection
     NodeContainer csmaNodes1;
     csmaNodes1.Add(star.GetSpokeNode(3));
     csmaNodes1.Create(nCsma1);
 
-//  Creando i nodi n6 e n7 che andranno a instaurare una connessione point-to-point
+//  Creating nodes n6 and n7 which will establish a point-to-point connection
     NodeContainer p2pNodes;
     p2pNodes.Create(2);
 
-//  Aggiungendo alla prima LAN n6, facente parte della connessione point-to-point
+//  Adding to the first LAN n6, being part of the point-to-point connection
     csmaNodes1.Add(p2pNodes.Get(0));
 
-//  Configurando i parametri della prima LAN
+//  Configuring the parameters of the first LAN
     CsmaHelper csma1;
     csma1.SetChannelAttribute("DataRate", StringValue("25Mbps"));
     csma1.SetChannelAttribute("Delay", StringValue("10us"));
 
-//  Installando la Csma sui nodi csmaNodes1
+//  Installing the Csma on nodes csmaNodes1
     NetDeviceContainer csmaDevices1;
     csmaDevices1 = csma1.Install(csmaNodes1);
 
-//  Creando la seconda LAN partendo da n7
+//  Creating the second LAN starting from n7
     NodeContainer csmaNodes2;
     csmaNodes2.Add(p2pNodes.Get(1));
     csmaNodes2.Create(nCsma2);
 
-//  Installando un point-to-point net device sui nodi n6 e n7 e un canale point-to-point tra essi        
+//  Installing a point-to-point net device on nodes n6 and n7 and a point-to-point channel between them       
     NetDeviceContainer p2pDevices;
     p2pDevices = pointToPoint.Install(p2pNodes);  
 
-//  Configurando i parametri della seconda LAN
+//  Configuring the parameters of the second LAN
     CsmaHelper csma2;
     csma2.SetChannelAttribute("DataRate", StringValue("30Mbps"));
     csma2.SetChannelAttribute("Delay", StringValue("20us"));
 
-//  Installando la Csma sui nodi csmaNodes2
+//  Installing the Csma on nodes csmaNodes2
     NetDeviceContainer csmaDevices2;
     csmaDevices2 = csma2.Install(csmaNodes2);
 
-//  Installando una Stack Internet (TCO,UDP,IP, ecc..) su ognuno dei nodi
+//  Installing an Internet Stack (TCP,UDP,IP, etc..) on each of the nodes
     NS_LOG_INFO("Install internet stack on all nodes.");
     InternetStackHelper stack;
     star.InstallStack(stack);
@@ -123,8 +123,8 @@ int main(int argc, char* argv[]){
     stack.Install(csmaNodes2.Get(1));
     stack.Install(csmaNodes2.Get(2));
 
-//  Associando gli indirizzi IP ai devices partendo dal network 10.0.1.0 per la stella con maschera 28, 192.118.1.0 per la prima LAN con maschera 24,
-//  192.118.2.0 per la seconda LAN con maschera 24 e 10.0.2.0 per la p2p con maschera 30
+//  Associating the IP addresses to the devices starting from the network 10.0.1.0 for the star with mask 28, 192.118.1.0 for the first LAN with mask 24,
+//  192.118.2.0 for the second LAN with mask 24 and 10.0.2.0 for the p2p with mask 30
     NS_LOG_INFO("Assign IP Addresses.");
     star.AssignIpv4Addresses(Ipv4AddressHelper("10.0.1.0", "/28"));
 
@@ -138,11 +138,11 @@ int main(int argc, char* argv[]){
     address.SetBase("192.118.2.0", "/24");
     Ipv4InterfaceContainer csmaInterfaces2 = address.Assign(csmaDevices2);
 
-//  Inizio configurazione 0 :   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Start configuration 0 :   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if ( configuration == 0 ) {
         NS_LOG_INFO("Create applications.");
 
-    //  Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
+    //  Creation of a packet sink on star node n1, to receive packets
         uint16_t port = 2600;
         Address sinkLocalAddress(InetSocketAddress(Ipv4Address::GetAny(), port));
         PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", sinkLocalAddress);
@@ -150,14 +150,14 @@ int main(int argc, char* argv[]){
         sinkApp.Start(Seconds(1.0));
         sinkApp.Stop(Seconds(20.0));
 
-    //  Creazione di un' applicazioni OnOff per mandare TCP al nodo n1
+    //  Creating an OnOff application to send TCP to node n1
         OnOffHelper clientHelper("ns3::TcpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(0), port));
         clientHelper.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize = 1500;
         clientHelper.SetAttribute("PacketSize", UintegerValue(packetSize));
 
-    //  Impostazione dell' OnOff sul nodo n9
+    //  Setting On Off on node n 9
         ApplicationContainer clientApps = clientHelper.Install(csmaNodes2.Get(2));
         AddressValue remoteAddress(InetSocketAddress(csmaInterfaces2.GetAddress(2), port));
         clientHelper.SetAttribute("Remote", remoteAddress);
@@ -167,10 +167,10 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
-    //  Cattura i pacchetti e crea un file .pcap
+    //  Capture the packages and create a .pcap file
         NS_LOG_INFO("Enable pcap tracing.");
 
-    //  TEST PCAP sui nodi n0, n5, n7
+    //  TEST PCAP on nodes n0, n5, n7
         pointToPoint.EnablePcap("task1-0-n0.pcap", star.GetHub()->GetDevice(0), true, true);
         csma1.EnablePcap("task1-0-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-0-n7.pcap",p2pDevices.Get(1),true,true);
@@ -181,10 +181,10 @@ int main(int argc, char* argv[]){
         csma2.EnableAscii(ascii.CreateFileStream("task1-0-n9.tr"),csmaDevices2.Get(2));
     }
 
-/// Inizio configurazione 1 :  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Start configuration 1 :  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if ( configuration == 1 ) {
 
-    //  Creazione di un packet sink sul nodo n1 della stella, per ricevere i pacchetti
+    //  Creation of a packet sink on star node n1, to receive packets
         uint16_t port1 = 2600;
         Address sinkLocalAddress1(InetSocketAddress(Ipv4Address::GetAny(), port1));
         PacketSinkHelper sinkHelper1("ns3::TcpSocketFactory", sinkLocalAddress1);
@@ -192,21 +192,21 @@ int main(int argc, char* argv[]){
         sinkApp1.Start(Seconds(1.0));
         sinkApp1.Stop(Seconds(20.0));
 
-    //  Creazione di un' applicazioni OnOff per mandare TCP al nodo n1
+    //  Creating an OnOff application to send TCP to node n1
         OnOffHelper clientHelper1("ns3::TcpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(0), port1));
         clientHelper1.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper1.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize1 = 2500;
         clientHelper1.SetAttribute("PacketSize", UintegerValue(packetSize1));
 
-    //  Impostazione dell' OnOff sul nodo n9
+    //  Setting On Off on node n 9
         ApplicationContainer clientApps1 = clientHelper1.Install(csmaNodes2.Get(2));
         AddressValue remoteAddress1(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port1));
         clientHelper1.SetAttribute("Remote", remoteAddress1);
         clientApps1.Start(Seconds(5.0));
         clientApps1.Stop(Seconds(15.0));
 
-    //  Creazione di un packet sink sul nodo n2 della stella, per ricevere i pacchetti
+    //  Creation of a packet sink on star node n2, to receive packets
         uint16_t port2 = 7777;
         Address sinkLocalAddress2(InetSocketAddress(Ipv4Address::GetAny(), port2));
         PacketSinkHelper sinkHelper2("ns3::TcpSocketFactory", sinkLocalAddress2);
@@ -214,14 +214,14 @@ int main(int argc, char* argv[]){
         sinkApp2.Start(Seconds(1.0));
         sinkApp2.Stop(Seconds(20.0));
 
-    //  Creazione di un' applicazioni OnOff per mandare TCP al nodo n2
+    //  Creating an OnOff application to send TCP to node n2
         OnOffHelper clientHelper2("ns3::TcpSocketFactory", InetSocketAddress(star.GetSpokeIpv4Address(1), port2));
         clientHelper2.SetAttribute("OnTime", StringValue("ns3::ConstantRandomVariable[Constant=1]"));
         clientHelper2.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
         uint32_t packetSize2 = 5000;
         clientHelper2.SetAttribute("PacketSize", UintegerValue(packetSize2));
 
-    //  Impostazione dell' OnOff sul nodo n8
+    //  Setting of OnOff on node n8
         ApplicationContainer clientApps2 = clientHelper2.Install(csmaNodes2.Get(1)) ;
         AddressValue remoteAddress2(InetSocketAddress(csmaInterfaces2.GetAddress(1), port2));
         clientHelper2.SetAttribute("Remote", remoteAddress2);
@@ -231,15 +231,15 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
-    //  Cattura i pacchetti e crea un file .pcap
+    //  Capture the packages and create a .pcap file
         NS_LOG_INFO("Enable pcap tracing.");
 
-    //  TEST PCAP sui nodi n0, n5, n7
+    //  TEST PCAP on nodes n0, n5, n7
         pointToPoint.EnablePcap("task1-1-n0.pcap", star.GetHub()->GetDevice(0), true, true);
         csma1.EnablePcap("task1-1-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-1-n7.pcap",p2pDevices.Get(1),true,true);
 
-    //  ASCII Tracing su server n1 n2 e client n8 n9   
+    //  ASCII Tracing on n1 n2 servers and n8 n9 clients   
         AsciiTraceHelper ascii;
         pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
         pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n2.tr"),star.GetSpokeNode(1)->GetDevice(0));     
@@ -247,17 +247,16 @@ int main(int argc, char* argv[]){
         csma2.EnableAscii(ascii.CreateFileStream("task1-1-n9.tr"),csmaDevices2.Get(2));
     }
     
-/// Inizio configurazione 2 :  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    else if ( configuration == 2 ) {
+/// Start configuration 2 :  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //  UDP Echo Server su n2, porta 63   
+    //  UDP Echo Server on n2, port 63   
         UdpEchoServerHelper echoServer(63);
 
         ApplicationContainer serverApps = echoServer.Install(star.GetSpokeNode(1));
         serverApps.Start(Seconds(1.0));
         serverApps.Stop(Seconds(20.0));
 
-    //  UDP Echo Client su n8
+    //  UDP Echo Client on n8
         uint32_t maxPacketCount = 5;
         Time interPacketInterval = Seconds(2.);
         UdpEchoClientHelper echoClient(star.GetSpokeIpv4Address(1), 63);
@@ -269,7 +268,7 @@ int main(int argc, char* argv[]){
         clientApps.Start(Seconds(3.0));
         clientApps.Stop(Seconds(15.0));
 
-    //  TCP Sink su n1, porta 2600
+    //  TCP Sink on n1, port 2600
         uint16_t port3 = 2600;
         Address sinkLocalAddress3(InetSocketAddress(Ipv4Address::GetAny(), port3));
         PacketSinkHelper sinkHelper3("ns3::TcpSocketFactory", sinkLocalAddress3);
@@ -284,14 +283,14 @@ int main(int argc, char* argv[]){
         uint32_t packetSize3 = 3000;
         clientHelper3.SetAttribute("PacketSize", UintegerValue(packetSize3));
 
-    //  Impostazione dell' OnOff sul nodo n9
+    //  Setting On Off on node n 9
         ApplicationContainer clientApps3 = clientHelper3.Install(csmaNodes2.Get(2));
         AddressValue remoteAddress3(InetSocketAddress(csmaInterfaces2.GetAddress(2) , port3));
         clientHelper3.SetAttribute("Remote", remoteAddress3);
         clientApps3.Start(Seconds(3.0));
         clientApps3.Stop(Seconds(9.0));
 
-    //  UDP Sink su n3, porta 2500
+    //  UDP Sink on n3, port 2500
         uint16_t port4 = 2500;
         Address sinkLocalAddress4(InetSocketAddress(Ipv4Address::GetAny(), port4));
         PacketSinkHelper sinkHelper4("ns3::UdpSocketFactory", sinkLocalAddress4);
@@ -306,7 +305,7 @@ int main(int argc, char* argv[]){
         uint32_t packetSize4 = 3000;
         clientHelper4.SetAttribute("PacketSize", UintegerValue(packetSize4));
 
-    //  Impostazione dell' OnOff sul nodo n8
+    //  Setting of OnOff on node n8
         ApplicationContainer clientApps4 = clientHelper4.Install(csmaNodes2.Get(1));
         AddressValue remoteAddress4(InetSocketAddress(csmaInterfaces2.GetAddress(1) , port4));
         clientHelper4.SetAttribute("Remote", remoteAddress4);
@@ -324,15 +323,15 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
     
-    //  Cattura i pacchetti e crea un file .pcap
+    //  Capture the packages and create a .pcap file
         NS_LOG_INFO("Enable pcap tracing.");
 
-    //  TEST PCAP sui nodi n0, n5, n7
+    //  TEST PCAP on nodes n0, n5, n7
         pointToPoint.EnablePcap("task1-2-n0.pcap", star.GetHub()->GetDevice(0), true, true);
         csma1.EnablePcap("task1-2-n5.pcap",csmaDevices1.Get(1),true,true);
         pointToPoint.EnablePcap("task1-2-n7.pcap",p2pDevices.Get(1),true,true);
 
-    //  ASCII Tracing su server n1 n2 n3 e client n8 n9
+    //  ASCII Tracing on server n1 n2 n3 and client n8 n9
         AsciiTraceHelper ascii;
         pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
         pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n2.tr"),star.GetSpokeNode(1)->GetDevice(0));     
@@ -341,7 +340,7 @@ int main(int argc, char* argv[]){
         csma2.EnableAscii(ascii.CreateFileStream("task1-2-n9.tr"),csmaDevices2.Get(2));
     }
 
-/// Printando indirizzi IP dei nodi  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Printing IP addresses of the nodes  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     std::ostream& os = std::cout;
     printf("Node: %" PRIu32" ",star.GetHub()->GetId());

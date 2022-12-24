@@ -171,14 +171,14 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable pcap tracing.");
 
     //  TEST PCAP on nodes n0, n5, n7
-        pointToPoint.EnablePcap("task1-0-n0.pcap", star.GetHub()->GetDevice(0), true, true);
-        csma1.EnablePcap("task1-0-n5.pcap",csmaDevices1.Get(1),true,true);
-        pointToPoint.EnablePcap("task1-0-n7.pcap",p2pDevices.Get(1),true,true);
+        pointToPoint.EnablePcap("Simulation_1-0-n0.pcap", star.GetHub()->GetDevice(0), true, true);
+        csma1.EnablePcap("Simulation_1-0-n5.pcap",csmaDevices1.Get(1),true,true);
+        pointToPoint.EnablePcap("Simulation_1-0-n7.pcap",p2pDevices.Get(1),true,true);
 
     //  ASCII Tracing server n1 client n9  
         AsciiTraceHelper ascii;
-        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-0-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
-        csma2.EnableAscii(ascii.CreateFileStream("task1-0-n9.tr"),csmaDevices2.Get(2));
+        pointToPoint.EnableAscii(ascii.CreateFileStream("Simulation_1-0-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
+        csma2.EnableAscii(ascii.CreateFileStream("Simulation_1-0-n9.tr"),csmaDevices2.Get(2));
     }
 
 /// Start configuration 1 :  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -235,16 +235,16 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable pcap tracing.");
 
     //  TEST PCAP on nodes n0, n5, n7
-        pointToPoint.EnablePcap("task1-1-n0.pcap", star.GetHub()->GetDevice(0), true, true);
-        csma1.EnablePcap("task1-1-n5.pcap",csmaDevices1.Get(1),true,true);
-        pointToPoint.EnablePcap("task1-1-n7.pcap",p2pDevices.Get(1),true,true);
+        pointToPoint.EnablePcap("Simulation_1-1-n0.pcap", star.GetHub()->GetDevice(0), true, true);
+        csma1.EnablePcap("Simulation_1-1-n5.pcap",csmaDevices1.Get(1),true,true);
+        pointToPoint.EnablePcap("Simulation_1-1-n7.pcap",p2pDevices.Get(1),true,true);
 
     //  ASCII Tracing on n1 n2 servers and n8 n9 clients   
         AsciiTraceHelper ascii;
-        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
-        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-1-n2.tr"),star.GetSpokeNode(1)->GetDevice(0));     
-        csma2.EnableAscii(ascii.CreateFileStream("task1-1-n8.tr"),csmaDevices2.Get(1));
-        csma2.EnableAscii(ascii.CreateFileStream("task1-1-n9.tr"),csmaDevices2.Get(2));
+        pointToPoint.EnableAscii(ascii.CreateFileStream("Simulation_1-1-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
+        pointToPoint.EnableAscii(ascii.CreateFileStream("Simulation_1-1-n2.tr"),star.GetSpokeNode(1)->GetDevice(0));     
+        csma2.EnableAscii(ascii.CreateFileStream("Simulation_1-1-n8.tr"),csmaDevices2.Get(1));
+        csma2.EnableAscii(ascii.CreateFileStream("Simulation_1-1-n9.tr"),csmaDevices2.Get(2));
     }
     
 /// Start configuration 2 :  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -313,7 +313,7 @@ int main(int argc, char* argv[]){
         clientApps4.Stop(Seconds(15.0));
     
     //  Setting the message in the UDP packets
-        std::string matricola = " Somma delle matricole : 5823635 ";
+        std::string matricola = " message ";
         int size = 2559 - matricola.size();
         for (int i = 0; i < size; i++){
             matricola += char(0);
@@ -327,17 +327,17 @@ int main(int argc, char* argv[]){
         NS_LOG_INFO("Enable pcap tracing.");
 
     //  TEST PCAP on nodes n0, n5, n7
-        pointToPoint.EnablePcap("task1-2-n0.pcap", star.GetHub()->GetDevice(0), true, true);
-        csma1.EnablePcap("task1-2-n5.pcap",csmaDevices1.Get(1),true,true);
-        pointToPoint.EnablePcap("task1-2-n7.pcap",p2pDevices.Get(1),true,true);
+        pointToPoint.EnablePcap("Simulation_1-2-n0.pcap", star.GetHub()->GetDevice(0), true, true);
+        csma1.EnablePcap("Simulation_1-2-n5.pcap",csmaDevices1.Get(1),true,true);
+        pointToPoint.EnablePcap("Simulation_1-2-n7.pcap",p2pDevices.Get(1),true,true);
 
     //  ASCII Tracing on server n1 n2 n3 and client n8 n9
         AsciiTraceHelper ascii;
-        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
-        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n2.tr"),star.GetSpokeNode(1)->GetDevice(0));     
-        pointToPoint.EnableAscii(ascii.CreateFileStream("task1-2-n3.tr"),star.GetSpokeNode(2)->GetDevice(0));       
-        csma2.EnableAscii(ascii.CreateFileStream("task1-2-n8.tr"),csmaDevices2.Get(1));
-        csma2.EnableAscii(ascii.CreateFileStream("task1-2-n9.tr"),csmaDevices2.Get(2));
+        pointToPoint.EnableAscii(ascii.CreateFileStream("Simulation_1-2-n1.tr"),star.GetSpokeNode(0)->GetDevice(0));       
+        pointToPoint.EnableAscii(ascii.CreateFileStream("Simulation_1-2-n2.tr"),star.GetSpokeNode(1)->GetDevice(0));     
+        pointToPoint.EnableAscii(ascii.CreateFileStream("Simulation_1-2-n3.tr"),star.GetSpokeNode(2)->GetDevice(0));       
+        csma2.EnableAscii(ascii.CreateFileStream("Simulation_1-2-n8.tr"),csmaDevices2.Get(1));
+        csma2.EnableAscii(ascii.CreateFileStream("Simulation_1-2-n9.tr"),csmaDevices2.Get(2));
     }
 
 /// Printing IP addresses of the nodes  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

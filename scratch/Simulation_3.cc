@@ -159,12 +159,12 @@ int main(int argc, char* argv[]){
     NodeList list;
     std::string s1 = std::to_string(list.GetNode(4) -> GetId());
     std::string s2 = std::to_string(list.GetNode(5) -> GetId());
-    phy.EnablePcap("task2-" + state + "-" + s1 + ".pcap", StaDevices.Get(4), true, true);
-    phy.EnablePcap("task2-" + state + "-" + s2 + ".pcap", ApDevices.Get(0), true, true);
+    phy.EnablePcap("Simulation_3-" + state + "-" + s1 + ".pcap", StaDevices.Get(4), true, true);
+    phy.EnablePcap("Simulation_3-" + state + "-" + s2 + ".pcap", ApDevices.Get(0), true, true);
 
 //  NetAnim
     if(useNetAnim) {
-        AnimationInterface anim(std::string("wireless-task2-rts-") + state + ".xml");               
+        AnimationInterface anim(std::string("wireless-Simulation_3-rts-") + state + ".xml");               
 
         anim.UpdateNodeDescription(wifiStaNodes.Get(0), "SRV-" + std::to_string(list.GetNode(0) -> GetId()));
         anim.UpdateNodeColor(wifiStaNodes.Get(0), 255, 0, 0);                                     
@@ -186,7 +186,7 @@ int main(int argc, char* argv[]){
 
     //  Enabling writing the packet metadata to the XML trace
         anim.EnablePacketMetadata();
-        anim.EnableIpv4RouteTracking("routingtable-wireless-task2.xml",
+        anim.EnableIpv4RouteTracking("routingtable-wireless-Simulation_3.xml",
                                  Seconds(0),
                                  Seconds(10),
                                  Seconds(0.25));                                                        

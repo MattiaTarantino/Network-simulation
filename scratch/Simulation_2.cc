@@ -24,7 +24,7 @@
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE("HW2_Task1_Team_48");
+NS_LOG_COMPONENT_DEFINE("Simulation_2");
 
 int main(int argc, char* argv[]){
 

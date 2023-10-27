@@ -313,12 +313,12 @@ int main(int argc, char* argv[]){
         clientApps4.Stop(Seconds(15.0));
     
     //  Setting the message in the UDP packets
-        std::string matricola = " message ";
-        int size = 2559 - matricola.size();
+        std::string message = " message ";
+        int size = 2559 - message.size();
         for (int i = 0; i < size; i++){
-            matricola += char(0);
+            message += char(0);
         }
-        echoClient.SetFill(clientApps.Get(0), matricola);
+        echoClient.SetFill(clientApps.Get(0), message);
 
         NS_LOG_INFO("Enable static global routing.");
         Ipv4GlobalRoutingHelper::PopulateRoutingTables();
